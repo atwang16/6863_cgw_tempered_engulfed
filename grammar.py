@@ -47,6 +47,7 @@ rules = [
 
 	# null determiner
 	(("DP", ""), ("NAME", "0")),
+	(("DP", ""), ("Pn", "0")),
 
 	# PP adjuncts
 	(("NP", ""), ("NP", ""), ("PP", "", 0)),
@@ -179,20 +180,21 @@ vocabulary = [
     ("Saxons", "N", "0", "P"),
 
     # personal pronouns -- need to do more
-    ("he", "N", "0", "S"),
-    ("her", "N", "0", "S"),
-    ("him", "N", "0", "S"),
-    ("it", "N", "0", "S"),
-    ("one", "N", "0", "S"),
-    ("she", "N", "0", "S"),
-    ("them", "N", "0", "P"),
-    ("they", "N", "0", "P"),
+	# TODO: separate subject / object
+    ("he", "Pn", "0", "S"),
+    ("her", "Pn", "0", "S"),
+    ("him", "Pn", "0", "S"),
+    ("it", "Pn", "0", "S"),
+    ("one", "Pn", "0", "S"),
+    ("she", "Pn", "0", "S"),
+    ("them", "Pn", "0", "P"),
+    ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
-    ("her", "N", "n", "S"),
-    ("his", "N", "n", "S"),
-    ("its", "N", "n", "S"),
-    ("their", "N", "n", "P"),
+    ("her", "X", "n", "S"),
+    ("his", "X", "n", "S"),
+    ("its", "X", "n", "S"),
+    ("their", "X", "n", "P"),
 
     # adverbs -- need to do more
     ("again", "X", "", ""),
