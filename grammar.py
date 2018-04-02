@@ -120,7 +120,7 @@ rules = [
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
 # part of speech: "NAME" = name/proper noun, "N" = noun, "P": preposition
-# selection parameters: "0" = no complements, "n" = noun, "d" = determiner, "name" = name
+# selection parameters: "0" = no complements, "n" = NP, "d" = DP
 # selection parameters do not get passed up the chain
 # and are only used to select complements
 # other parameters get passed up chain
@@ -211,27 +211,19 @@ vocabulary = [
     
     # prepositions
 	("of", "P", "d"),
-	("of", "P", "name"),
 	("above", "P", "d"),
-	("above", "P", "name"),
 	("across", "P", "d"),
 	("at", "P", "d"),
 	("below", "P", "d"),
-	("below", "P", "name"),
 	("by", "P", "d"),
-	("by", "P", "name"),
 	("for", "P", "d"),
-	("for", "P", "name"),
 	("from", "P", "d"),
-	("from", "P", "name"),
 	("into", "P", "d"),
 	("near", "P", "d"),
-	("near", "P", "name"),
 	("on", "P", "d"),
 	("over", "P", "d"),
 	("through", "P", "d"),
 	("with", "P", "d"),
-	("with", "P", "name"),
     
     # determiners
 	("a", "D", "n", "S"),
@@ -403,6 +395,20 @@ vocabulary = [
 	("be", "V", "dpa", "R"),
 	("being", "V", "dpa", "G"),
 	#("been", "V", "dpa", "N"),
+
+	("had", "V", "d", "PT"),
+	("had", "V", "d", "ST"),
+	("have", "V", "d", "R"),
+
+	("speak", "V", "0p", "R"), # can take prep phrase
+	("cover", "V", "d", "R"),
+	("be", "V", "d", "R"), # could also take predicate adjective
+	("ride", "V", "d", "R"),
+	("drink", "V", "0d", "R"),
+	("grow", "V", "0", "R"),
+	("carry", "V", "d", "R"),
+	("suggest", "V", "c", "R"),
+	("migrate", "V", "0p", "R"), # can take prep phrase
 ]
 
 # types of complements each head can have
