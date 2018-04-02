@@ -3,6 +3,7 @@
 # dear teammates: i apologize in advance for this terrible code
 
 import pdb
+import collections
 
 # rule format is (parent, child1, child2, etc)
 # where parent/childx is of the form (symbol, parameters)
@@ -29,7 +30,8 @@ import pdb
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", ""), ("I'", "")),
+	(("IP", ""), ("DP", ""), ("I'", "S")),
+	(("IP", ""), ("DP", ""), ("I'", "P")),
 
 	(("S", ""), ("CP", "."), (".", "")),
 	(("S", ""), ("CP", "?"), ("?", "")),
@@ -39,9 +41,9 @@ rules = [
 	(("CP", ""), ("IP", "")), # null complementizer
 	(("CP", ""), ("C", "i"), ("IP", "")),
 
-	(("CP", "?"), ("I", "v"), ("IP", "m")), # I to C movement
-	(("IP", "m"), ("DP", ""), ("I'", "m")),
-	(("I'", "m"), ("VP", "")), # move/missing inflector
+	#(("CP", "?"), ("I", "v"), ("IP", "m")), # I to C movement
+	#(("IP", "m"), ("DP", ""), ("I'", "m")),
+	#(("I'", "m"), ("VP", "")), # move/missing inflector
 
 	# null determiner
 	(("DP", ""), ("NAME", "0")),
@@ -52,7 +54,7 @@ rules = [
 	# CP adjunct
 	(("NP", ""), ("NP", ""), ("CP", "a")),
 	(("CP", "a"), ("C", "i"), ("IP", "a")),
-	(("IP", "a"), ("I", "v"), ("VP", "")), # IP with no subject
+	(("IP", "a"), ("I'", "")), # IP with no subject
 
 	# head complements
 	# no complements
@@ -61,14 +63,46 @@ rules = [
 	((".", ""), (".", "0")),
 	(("?", ""), ("?", "0")),
 	# VP complements
-	(("I'", ""), ("I", "v"), ("VP", "")),
+	#(("I'", ""), ("I", "v"), ("VP", "")),
 	# DP complements
-	(("VP", ""), ("V", "d"), ("DP", "")),
+	(("VP", ""), ("V", "d"), ("DP", "", 0)),
 	(("PP", ""), ("P", "d"), ("DP", "")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
-	(("VP", ""), ("V", "c"), ("CP", "")),
+	(("VP", ""), ("V", "c"), ("CP", "", 0)),
+
+	# inflection rules
+	# I' parameters:
+	# V: voice
+	# T: progressive aspect
+	# A: perfect aspect
+	# M: modality
+	(("VP", "P"), ("VP", "")),
+
+	(("I'", "R"), ("VP", "R")), # root
+	(("I'", "G"), ("VP", "G")), # progressive
+	(("I'", "N"), ("VP", "N")), # perfect nonprogressive
+
+	(("I'", "G"), ("I", "$_"), ("VP", "N")), # passive progressive, eg being known
+	(("I'", "N"), ("I", "%_"), ("VP", "N")), # perfect nonprogressive, eg been known
+	(("I'", "N"), ("I", "%_"), ("VP", "G")), # perfect nonprogressive, eg been knowing
+	(("I'", "R"), ("I", "*_"), ("VP", "N")), # eg be known
+	(("I'", "R"), ("I", "*_"), ("VP", "G")), # eg be knowing
+
+	(("I'", "P"), ("VP", "P")), # active plural, eg know
+	(("I'", "S"), ("VP", "S")), # active singular, eg knows
+	(("I'", "P"), ("VP", "PT")), # past plural, eg knew
+	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
+	(("I'", "P"), ("I", "DP_"), ("VP", "R")), # active plural, eg do know
+	(("I'", "S"), ("I", "DS_"), ("VP", "R")), # active singular, eg does know;
+	(("I'", "P"), ("I", "VP_"), ("VP", "N")), # passive plural, eg are known
+	(("I'", "S"), ("I", "VS_"), ("VP", "N")), # passive singular, eg is known
+
+	(("I'", "S"), ("I", "VS_"), ("I'", "G")), # continuous singular, eg is knowing
+	(("I'", "P"), ("I", "VP_"), ("I'", "G")), # continuous plural, eg are knowing
+
+	#(("I'", "T"), ("I", "H"), ("I'", "N")), # have known
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -82,7 +116,7 @@ vocabulary = [
 	("horse", "N", "0"),
 	("near", "P", "d"),
 	("castle", "N", "0"),
-	("suggest", "V", "dc"),
+	#("suggest", "V", "dc"),
 	("that", "C", "i"),
 	("of", "P", "d"),
 
@@ -95,12 +129,12 @@ vocabulary = [
 	("cat", "N", "0"),
 	("dog", "N", "0"),
 	("bunny", "N", "0"),
-	("run", "V", "0"),
-	("eat", "V", "0d"),
+	#("run", "V", "0"),
+	#("eat", "V", "0d"),
 	#("give", "V", "0"), # will handle indirect objects later
-	("does", "I", "v"),
-	("did", "I", "v"),
-	("will", "I", "v"),
+	#("does", "I", "v"),
+	#("did", "I", "v"),
+	#("will", "I", "v"),
 
 	(".", ".", "0"),
 	("!", ".", "0"),
@@ -108,45 +142,55 @@ vocabulary = [
 
 	# note: don't currently have rules / parameters to handle below words
 	# inflectors
-	("does", "I", "", ""),
-	("will", "I", "", ""),
+	("do", "I", "_", "DP"),
+	("does", "I", "_", "DS"),
 
-	("is", "I", "", ""),
-	("was", "I", "", ""),
+	("is", "I", "_", "VS"),
+	("was", "I", "_", "VS"),
 
-	("are", "I", "", ""),
-	("were", "I", "", ""),
+	("are", "I", "_", "VP"),
+	("were", "I", "_", "VP"),
 
-	("be", "I", "", ""),
-	("been", "I", "", ""),
-	("being", "I", "", ""),
-	("can", "I", "", ""),
-	("could", "I", "", ""),
-	("do", "I", "", ""),
-	("had", "I", "", ""),
-	("has", "I", "", ""),
-	("have", "I", "", ""),
-	("having", "I", "", ""),
+	("be", "I", "_", "*"),
+	("been", "I", "_", "%"),
+	("being", "I", "_", "$"),
 
-	("may", "I", "", ""),
-	("might", "I", "", ""),
-	("must", "I", "", ""),
-	("shall", "I", "", ""),
-	("should", "I", "", ""),
-	("would", "I", "", ""),
+	("can", "I", "_", ""),
+
+	# perfect
+	("had", "I", "_", "HT"),
+	("has", "I", "_", "HS"),
+	("have", "I", "_", "HP"),
+
+	# modal inflectors
+	("may", "I", "_", "M"),
+	("might", "I", "_", "M"),
+	("must", "I", "_", "M"),
+	("shall", "I", "_", "M"),
+	("should", "I", "_", "M"),
+	("would", "I", "_", "M"),
+	("could", "I", "_", "M"),
+	("will", "I", "_", "M"),
 
 	# verbs
-	("knew", "V", "dc", ""),
-	("know", "V", "dc", ""),
-	("knowing", "V", "dc", ""),
-	("known", "V", "dc", ""),
-	("knows", "V", "dc", ""),
+	# R: root
+	# S: singular present
+	# P: past
+	# G: progressive
+	# N: perfect nonprogressive
+	("knew", "V", "0dc", "PT"),
+	("knew", "V", "0dc", "ST"),
+	("know", "V", "0dc", "P"),
+	("know", "V", "0dc", "R"),
+	("knowing", "V", "0dc", "G"),
+	("known", "V", "0", "N"),
+	("knows", "V", "0dc", "S"),
 ]
 
 # types of complements each head can have
 selection_rules = {
 	"V": "0dcp",
-	"I": "v",
+	"I": "_",
 	"N": "0",
 	"D": "n",
 	"P": "d",
@@ -155,7 +199,12 @@ selection_rules = {
 	"?": "0",
 }
 
-carried_parameters = set(char for char in "m.?")
+vocab_parameters = collections.defaultdict(str, {
+	"V": "RSPGNT",
+	"I": "DPSV*%$HTM",
+})
+
+carried_parameters = set(char for char in "m.?RSPGNT")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
@@ -173,15 +222,15 @@ def gen_tag(symbol, parameters):
 def gen_rules(rule):
 	used_parameters = {
 		char
-		for symbol, parameters in rule
-		for char in parameters
+		for r in rule
+		for char in r[1]
 	}
 	remaining_parameters = "".join(carried_parameters - used_parameters)
 	return [
 		(
 			gen_tag(rule[0][0], parameters + rule[0][1]),
 			[
-				gen_tag(r[0], parameters + r[1])
+				gen_tag(r[0], ("" if len(r) > 2 and r[2] == 0 else parameters) + r[1])
 				for r in rule[1:]
 			]
 		)
@@ -203,10 +252,12 @@ def gen_grammar(rules):
 		("START", "S"),
 		("S", ("S_()",)),
 	] + [
-		(gen_tag(pos, p), (gen_tag(pos, parameters),))
+		(gen_tag(pos, p + vp), (gen_tag(pos, parameters + vp),))
 		for pos, possible_parameters in selection_rules.items()
 		for parameters in enumerate_parameters(possible_parameters)
 		for p in parameters
+		for vp in enumerate_parameters(vocab_parameters[pos])
+		if len(parameters) > 1
 	]
 
 	# filter out unusued rules that can't derive anything
