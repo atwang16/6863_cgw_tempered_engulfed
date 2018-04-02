@@ -30,8 +30,8 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", ""), ("I'", "S")),
-	(("IP", ""), ("DP", ""), ("I'", "P")),
+	(("IP", ""), ("DP", "S"), ("I'", "S")),
+	(("IP", ""), ("DP", "P"), ("I'", "P")),
 
 	(("S", ""), ("CP", "."), (".", "")),
 	(("S", ""), ("CP", "?"), ("?", "")),
@@ -49,7 +49,7 @@ rules = [
 	(("DP", ""), ("NAME", "0")),
 
 	# PP adjuncts
-	(("NP", ""), ("NP", ""), ("PP", "")),
+	(("NP", ""), ("NP", ""), ("PP", "", 0)),
 
 	# CP adjunct
 	(("NP", ""), ("NP", ""), ("CP", "a")),
@@ -111,9 +111,11 @@ rules = [
 # other parameters get passed up chain
 vocabulary = [
 	("Arthur", "NAME", "0"),
-	("the", "D", "n"),
+	("the", "D", "n", "S"),
+	("the", "D", "n", "P"),
 	("king", "N", "0"),
-	("horse", "N", "0"),
+	("horse", "N", "0", "S"),
+	("snakes", "N", "0", "P"),
 	("near", "P", "d"),
 	("castle", "N", "0"),
 	#("suggest", "V", "dc"),
@@ -202,9 +204,11 @@ selection_rules = {
 vocab_parameters = collections.defaultdict(str, {
 	"V": "RSPGNT",
 	"I": "DPSV*%$HTM",
+	"N": "SP",
+	"D": "SP",
 })
 
-carried_parameters = set(char for char in "m.?RSPGNT")
+carried_parameters = set(char for char in "m.?RSPGNTS")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
