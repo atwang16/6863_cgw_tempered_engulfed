@@ -106,6 +106,9 @@ rules = [
 
 	(("I'", "S"), ("I", "M_"), ("I'", "R")), # modality, eg should know
 	(("I'", "P"), ("I", "M_"), ("I'", "R")), # modality, eg should know
+
+	# verb as subject
+	(("DP", "S"), ("VP", "G")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -280,7 +283,7 @@ vocabulary = [
 	("if", "X", "", ""),
 
 	# adjectives -- need to do more
-	("bloody", "X", "", ""),
+	("bloody", "A", "_", ""),
 	("weary", "X", "", ""),
 	("unable", "X", "", ""),
 	("trusty", "X", "", ""),
