@@ -1,0 +1,152 @@
+#!/usr/bin/env python2
+
+import argparse
+import random
+from collections import deque
+
+class Nonterminal:
+    """
+    Class to represent all of the rules from a nonterminal to other symbols
+    """
+    def __init__(self, nonterminal, rng):
+        self.nonterminal = nonterminal
+        self.weights = []
+        self.rhs = []
+        self.rng = rng
+
+    def is_applicable(self, nonterminal):
+        """
+        Check if the specified rule is applicable to the nonterminal passed
+        :param nonterminal: string representing nonterminal symbol which we want to compare to rule
+        :return: True if rule's nonterminal is equal to argument, or False otherwise
+        """
+        return self.nonterminal == nonterminal
+
+    def add(self, weight, rhs):
+        """
+        Add a rule to the nonterminal object.
+        :param weight: float representing weight of rule
+        :param rhs: list of symbols representing split of righthand side of rule
+        :return: True if successful
+        """
+        self.weights.append(weight)
+        self.rhs.append(rhs)
+        return True
+
+    def choose(self):
+        """
+        Pseudorandomly choose a rule to apply, according to weights. Function works by sequentially subtracting weights
+        from randomly generated float until choice is less than weight of rule.
+        :return: list of symbols on righthand side of chosen rule, or else None if error occurs
+        """
+        choice = self.rng.random() * sum(self.weights)
+        for i in range(len(self.weights)):
+            if choice < self.weights[i]:
+                return self.rhs[i]
+            else:
+                choice -= self.weights[i]
+        print("ERROR: reached the end of choose() for", self.nonterminal, "without selecting a rule.")
+        return None
+
+    def __str__(self):
+        """
+        Get string representation of rules.
+        :return: string containing description of all of the rules
+        """
+        output = ""
+        for i in range(len(self.rhs)):
+            output += self.nonterminal + " -> " + self.rhs[i] + " (" + str(self.weights[i]) + ")\n"
+        return output
+
+
+class SentenceNode:
+    """
+    Class representing the root of a sentence tree.
+    """
+    def __init__(self, symbol):
+        self.symbol = symbol
+        self.expansion = None
+
+    def get_symbol(self):
+        """
+        Return symbol stored in node.
+        :return: string representing symbol at node.
+        """
+        return self.symbol
+
+    def apply_rule(self, rule):
+        """
+        Apply a rule to a sentence node to generate expansion from node.
+        :param rule: rule to be applied.
+        :return:
+        """
+        if rule.is_applicable(self.symbol):
+            self.expansion = [SentenceNode(sym) for sym in rule.choose()]
+            return self.expansion
+        else:
+            return None
+
+    def get_sentence(self, tree=False):
+        """
+        Recursive method to retrieve sentence from node. Sentence must be generated from node before it can be retrieved.
+        :param tree: True if parenthetical tree structure and all symbols should be outputted, or False if only sentence
+        is desired.
+        :return: String representing sentence generated from specified node.
+        """
+        if self.expansion is None:
+            return self.symbol
+        else:
+            if tree:
+                return "( " + self.symbol + ' ' + " ".join(sym.get_sentence(tree) for sym in self.expansion) + " )"
+            else:
+                return " ".join(sym.get_sentence(tree) for sym in self.expansion)
+
+    def __str__(self):
+        """
+        Get sentence representation. Essentially connects built-in string representation to self.get_sentence() method.
+        :return: string representing output of sentence
+        """
+        return self.get_sentence()
+
+# Parse arguments.  You should not need to modify this.
+parser = argparse.ArgumentParser()
+parser.add_argument("grammar", help="path to grammar file")
+parser.add_argument("count", type=int, help="number of sentences to generate", nargs='?', default=1)
+parser.add_argument("-t", "--tree", action='store_true', help="pretty-print tree form instead of printing sentence")
+parser.add_argument("--seed", type=int, default=0, help="RNG seed")
+args = parser.parse_args()
+
+# Create a random generator.
+rng = random.Random(args.seed)
+
+cfg = {}  # dictionary of context-free grammar rules
+
+# load grammar
+with open(args.grammar, 'r') as grammar_file:
+    for line in grammar_file:
+        line_wo_comments = line.split('#', 1)[0].strip()  # remove all comments
+        rule = line_wo_comments.split('\t', 2)  # split by tabs to get rules
+
+        if len(rule) == 3:  # check proper rule formatting--should have three parts
+            weight = float(rule[0])
+            lhs = rule[1]
+            rhs = rule[2].split(' ')
+
+            if lhs not in cfg:  # no rules for nonterminal symbol exist
+                cfg[lhs] = Nonterminal(lhs, rng)
+            cfg[lhs].add(weight, rhs)  # add rule for nonterminal symbol
+
+# generate sentences
+for i in range(args.count):
+    sentence = SentenceNode("START")
+    queue = deque()  # queue of symbols to expand
+    queue.append(sentence)
+
+    while len(queue) > 0:
+        node = queue.popleft()
+        if node.get_symbol() in cfg:  # rule exists for symbol at node
+            new_symbols = node.apply_rule(cfg[node.get_symbol()])  # expand symbol
+            for sym in new_symbols:  # add symbols to queue
+                queue.append(sym)
+
+    print sentence.get_sentence(args.tree)
