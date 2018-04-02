@@ -102,7 +102,10 @@ rules = [
 	(("I'", "S"), ("I", "VS_"), ("I'", "G")), # continuous singular, eg is knowing
 	(("I'", "P"), ("I", "VP_"), ("I'", "G")), # continuous plural, eg are knowing
 
-	#(("I'", "T"), ("I", "H"), ("I'", "N")), # have known
+	(("I'", "R"), ("I", "HB_"), ("I'", "N")), # have known
+
+	(("I'", "S"), ("I", "M_"), ("I'", "R")), # modality, eg should know
+	(("I'", "P"), ("I", "M_"), ("I'", "R")), # modality, eg should know
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -258,7 +261,7 @@ vocabulary = [
 	("...", "X", "", ""),
 	("--", "X", "", ""),
 	(";", "X", "", ""),
-	(":", "X", "", "")
+	(":", "X", "", ""),
 
 	# coordinating conjunctions -- need to do more
 	("and", "X", "", ""),
@@ -351,16 +354,17 @@ vocabulary = [
 	("can", "I", "_", ""),
 
 	# perfect
-	("had", "I", "_", "HT"),
+	("had", "I", "_", "HS"),
+	("had", "I", "_", "HP"),
 	("has", "I", "_", "HS"),
 	("have", "I", "_", "HP"),
+	("have", "I", "_", "HB"),
 
 	# modal inflectors
 	("can", "I", "_", "M"),
 	("may", "I", "_", "M"),
 	("might", "I", "_", "M"),
 	("must", "I", "_", "M"),
-	("ought", "I", "_", "M"),
 	("shall", "I", "_", "M"),
 	("should", "I", "_", "M"),
 	("would", "I", "_", "M"),
