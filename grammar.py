@@ -106,23 +106,23 @@ rules = [
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
+# part of speech: "NAME" = name/proper noun, "N" = noun, "P": preposition
+# selection parameters: "0" = no complements, "n" = noun, "d" = determiner, "name" = name
 # selection parameters do not get passed up the chain
 # and are only used to select complements
 # other parameters get passed up chain
 vocabulary = [
-	("Arthur", "NAME", "0"),
-	("Guinevere", "NAME", "0"),
-	("Sir Lancelot", "NAME", "0"),
-	("Sir Bedevere", "NAME", "0"),
-	("Zoot", "NAME", "0"),
-	("Patsy", "NAME", "0"),
-	("Uther Pendragon", "NAME", "0"),
-	("the", "D", "n", "S"),
-	("the", "D", "n", "P"),
-	("king", "N", "0"),
-	#("horse", "N", "0", "S"),
-	#("snakes", "N", "0", "P"),
-	("near", "P", "d"),
+    # Names
+	("Arthur", "NAME", "0", "S"),
+	("Guinevere", "NAME", "0", "S"),
+	("Sir Lancelot", "NAME", "0", "S"),
+	("Sir Bedevere", "NAME", "0", "S"),
+	("Zoot", "NAME", "0", "S"),
+	("Patsy", "NAME", "0", "S"),
+	("Uther Pendragon", "NAME", "0", "S"),
+
+	# nouns
+	("king", "N", "0", "S"),
 	("castle", "N", "0", "S"),
 	("defeater", "N", "0", "S"),
 	("servant", "N", "0", "S"),
@@ -143,9 +143,59 @@ vocabulary = [
 	("weight", "N", "0", "S"),
 	("story", "N", "0", "S"),
 	("sovereign", "N", "0", "S"),
+
+    # plural nouns
+    ("coconuts", "N", "0", "P"),
+    ("halves", "N", "0", "P"),
+    ("snows", "N", "0", "P"),
+    ("mountains", "N", "0", "P"),
+    ("areas", "N", "0", "P"),
+    ("strangers", "N", "0", "P"),
+    ("inches", "N", "0", "P"),
+	("snakes", "N", "0", "P"),
+    ("ants", "N", "0", "P"),
+    ("nights", "N", "0", "P"),
+
+    # proper nouns, not people -- need to do more
+    ("Camelot", "X", "0", "S"),
+    ("England", "X", "0", "S"),
+    ("Holy Grail", "X", "0", "S"),
+    ("Round Table", "X", "0", "S"),
+
+    # plural proper nouns -- need to do more
+    ("Britons", "N", "0", "P"),
+    ("Saxons", "N", "0", "P"),
+
+    # personal pronouns -- need to do more
+    ("he", "N", "0", "S"),
+    ("her", "N", "0", "S"),
+    ("him", "N", "0", "S"),
+    ("it", "N", "0", "S"),
+    ("one", "N", "0", "S"),
+    ("she", "N", "0", "S"),
+    ("them", "N", "0", "P"),
+    ("they", "N", "0", "P"),
+
+    # personal possessive pronouns
+    ("her", "N", "n", "S"),
+    ("his", "N", "n", "S"),
+    ("its", "N", "n", "S"),
+    ("their", "N", "n", "P"),
+
+    # adverbs -- need to do more
+    ("again", "X", "", ""),
+    ("already", "X", "", ""),
+    ("currently", "X", "", ""),
+    ("frequently", "X", "", ""),
+    ("precisely", "X", "", ""),
+    ("south", "X", "", ""),
+    ("successfully", "X", "", ""),
+    ("unfortunately", "X", "", ""),
+
 	#("suggest", "V", "dc"),
 	("that", "C", "i"),
-
+    
+    # prepositions
 	("of", "P", "d"),
 	("of", "P", "name"),
 	("above", "P", "d"),
@@ -168,7 +218,8 @@ vocabulary = [
 	("through", "P", "d"),
 	("with", "P", "d"),
 	("with", "P", "name"),
-
+    
+    # determiners
 	("a", "D", "n", "S"),
 	("another", "D", "n", "S"),
 	("any", "D", "n", "S"),
@@ -177,8 +228,9 @@ vocabulary = [
 	("every", "D", "n", "S"),
 	("no", "D", "n", "P"),
 	("that", "D", "n", "S"),
+	("the", "D", "n", "S"),
+	("the", "D", "n", "P"),
 	("this", "D", "n", "S"),
-
 
 	# wh words
 	("what", "Q", "0"),
@@ -196,9 +248,90 @@ vocabulary = [
 	#("did", "I", "v"),
 	#("will", "I", "v"),
 
+    # end of sentence
 	(".", ".", "0"),
 	("!", ".", "0"),
 	("?", "?", "0"),
+
+	# pauses -- need to do more
+	(",", "X", "", ""),
+	("...", "X", "", ""),
+	("--", "X", "", ""),
+	(";", "X", "", ""),
+	(":", "X", "", "")
+
+	# coordinating conjunctions -- need to do more
+	("and", "X", "", ""),
+	("but", "X", "", ""),
+	("or", "X", "", ""),
+	("either", "X", "", ""),
+	("nor", "X", "", ""),
+	("neither", "X", "", ""),
+	("so", "X", "", ""),
+
+	# subordinating conjunctions -- need to do more
+	("that", "X", "", ""),
+	("so", "X", "", ""),
+	("while", "X", "", ""),
+	("because", "X", "", ""),
+	("if", "X", "", ""),
+
+	# adjectives -- need to do more
+	("bloody", "X", "", ""),
+	("weary", "X", "", ""),
+	("unable", "X", "", ""),
+	("trusty", "X", "", ""),
+	("further", "X", "", ""),
+	("sacred", "X", "", ""),
+	("tropical", "X", "", ""),
+	("indigenous", "X", "", ""),
+	("temperate", "X", "", ""),
+	("hot", "X", "", ""),
+	("lucky", "X", "", ""),
+	("simple", "X", "", ""),
+	("tiny", "X", "", ""),
+	("hard", "X", "", ""),
+	("sensational", "X", "", ""),
+	("comparable", "X", "", ""),
+	("angolian", "X", "", ""),
+	("yellow", "X", "", ""),
+	("plodding", "X", "", ""),
+
+	# comparative adjectives -- need to do more
+	("bloodier", "X", "", ""),
+	("wearier", "X", "", ""),
+	("trustier", "X", "", ""),
+	("hotter", "X", "", ""),
+	("simpler", "X", "", ""),
+	("tinier", "X", "", ""),
+	("harder", "X", "", ""),
+
+	# superlative adjectives -- need to do more
+	("bloodiest", "X", "", ""),
+	("weariest", "X", "", ""),
+	("trustiest", "X", "", ""),
+	("hottest", "X", "", ""),
+	("simplest", "X", "", ""),
+	("tiniest", "X", "", ""),
+	("hardest", "X", "", ""),
+
+	# numbers -- need to do more
+	("eight", "X", "", ""),
+	("five", "X", "", ""),
+	("one", "X", "", ""),
+	("5.5", "X", "", ""),
+	("sixty", "X", "", ""),
+	("5,000", "X", "", ""),
+
+	# expletives -- need to do more
+	("there", "X", "", ""),
+
+	# 'to'
+	("to", "X", "", ""),
+
+	# 'not'
+	("not", "X", "", ""),
+
 
 	# note: don't currently have rules / parameters to handle below words
 	# inflectors
@@ -223,9 +356,11 @@ vocabulary = [
 	("have", "I", "_", "HP"),
 
 	# modal inflectors
+	("can", "I", "_", "M"),
 	("may", "I", "_", "M"),
 	("might", "I", "_", "M"),
 	("must", "I", "_", "M"),
+	("ought", "I", "_", "M"),
 	("shall", "I", "_", "M"),
 	("should", "I", "_", "M"),
 	("would", "I", "_", "M"),
