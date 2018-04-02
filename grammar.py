@@ -71,6 +71,8 @@ rules = [
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
+	# AP complements
+	(("VP", ""), ("V", "a"), ("AP", "", 0)),
 
 	# inflection rules
 	# I' parameters:
@@ -109,6 +111,10 @@ rules = [
 
 	# verb as subject
 	(("DP", "S"), ("VP", "G")),
+
+	# adjectives
+	(("AP", ""), ("A", "_")),
+	(("DP", ""), ("D", "n"), ("AP", "", 0), ("NP", "")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -387,11 +393,19 @@ vocabulary = [
 	("knowing", "V", "0dc", "G"),
 	("known", "V", "0", "N"),
 	("knows", "V", "0dc", "S"),
+
+	("is", "V", "dpa", "S"),
+	("was", "V", "dpa", "ST"),
+	("are", "V", "dpa", "P"),
+	("were", "V", "dpa", "PT"),
+	("be", "V", "dpa", "R"),
+	("being", "V", "dpa", "G"),
+	#("been", "V", "dpa", "N"),
 ]
 
 # types of complements each head can have
 selection_rules = {
-	"V": "0dcp",
+	"V": "0dcpa",
 	"I": "_",
 	"N": "0",
 	"D": "n",
