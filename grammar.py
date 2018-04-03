@@ -71,13 +71,16 @@ rules = [
 	# DP complements
 	(("VP", ""), ("V", "d"), ("DP", "S", 0)),
 	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
-	(("PP", ""), ("P", "d"), ("DP", "")),
+	(("PP", ""), ("P", "d"), ("DP", "P")),
+	(("PP", ""), ("P", "d"), ("DP", "S")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
 	# AP complements
 	(("VP", ""), ("V", "a"), ("AP", "", 0)),
+    # PP complements
+    (("VP", ""), ("V", "p"), ("PP", "", 0)),
 
 	# inflection rules
 	# I' parameters:
@@ -133,7 +136,7 @@ rules = [
     (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -222,10 +225,10 @@ vocabulary = [
     ("nights", "N", "0", "P"),
 
     # proper nouns, not people -- need to do more
-    ("Camelot", "X", "0", "S"),
-    ("England", "X", "0", "S"),
-    ("Holy Grail", "X", "0", "S"),
-    ("Round Table", "X", "0", "S"),
+    ("Camelot", "NAME", "0", "S"),
+    ("England", "NAME", "0", "S"),
+    ("the Holy Grail", "NAME", "0", "S"),
+    ("the Round Table", "NAME", "0", "S"),
 
     # plural proper nouns -- need to do more
     ("Britons", "N", "0", "P"),
@@ -274,6 +277,7 @@ vocabulary = [
 	("on", "P", "d"),
 	("over", "P", "d"),
 	("through", "P", "d"),
+    ("to", "P", "d"),
 	("with", "P", "d"),
     
     # determiners
@@ -394,12 +398,12 @@ vocabulary = [
 	("hardest", "X", "", ""),
 
 	# numbers -- need to do more
-	("eight", "Num", "0", "P"),
-	("five", "Num", "0", "P"),
-	("one", "Num", "0", "S"),
-	("5.5", "Num", "0", "P"),
-	("sixty", "Num", "0", "P"),
-	("5,000", "Num", "0", "P"),
+	("eight", "Num", "", "P"),
+	("five", "Num", "", "P"),
+	("one", "Num", "", "S"),
+	("5.5", "Num", "", "P"),
+	("sixty", "Num", "", "P"),
+	("5,000", "Num", "", "P"),
 
 	# expletives -- need to do more
 	("there", "X", "", ""),
@@ -485,13 +489,13 @@ vocabulary = [
 	("have", "V", "d", "P"),
 	("having", "V", "d", "G"),
 
-	("cover", "V", "d", "R"),
-	("cover", "V", "d", "P"),
-	("covers", "V", "d", "S"),
-	("covered", "V", "d", "ST"),
-	("covered", "V", "d", "PT"),
-	("covered", "V", "d", "N"),
-	("covering", "V", "d", "G"),
+	("cover", "V", "dp", "R"),
+	("cover", "V", "dp", "P"),
+	("covers", "V", "dp", "S"),
+	("covered", "V", "dp", "ST"),
+	("covered", "V", "dp", "PT"),
+	("covered", "V", "dp", "N"),
+	("covering", "V", "dp", "G"),
 
 	("drink", "V", "0dp", "R"),
 	("drink", "V", "0dp", "P"),
@@ -501,21 +505,21 @@ vocabulary = [
 	("drinking", "V", "0dp", "G"),
 	("drunk", "V", "0dp", "N"),
 
-	("carry", "V", "d", "R"),
-	("carry", "V", "d", "P"),
-	("carries", "V", "d", "S"),
-	("carried", "V", "d", "ST"),
-	("carried", "V", "d", "PT"),
-	("carried", "V", "d", "N"),
-	("carrying", "V", "d", "G"),
+	("carry", "V", "dp", "R"),
+	("carry", "V", "dp", "P"),
+	("carries", "V", "dp", "S"),
+	("carried", "V", "dp", "ST"),
+	("carried", "V", "dp", "PT"),
+	("carried", "V", "dp", "N"),
+	("carrying", "V", "dp", "G"),
 
-	("ride", "V", "dp", "R"),
-	("ride", "V", "dp", "P"),
-	("rides", "V", "dp", "S"),
-	("rode", "V", "dp", "ST"),
-	("rode", "V", "dp", "PT"),
-	("riding", "V", "dp", "G"),
-	("ridden", "V", "dp", "N"),
+	("ride", "V", "0dp", "R"),
+	("ride", "V", "0dp", "P"),
+	("rides", "V", "0dp", "S"),
+	("rode", "V", "0dp", "ST"),
+	("rode", "V", "0dp", "PT"),
+	("riding", "V", "0dp", "G"),
+	("ridden", "V", "0dp", "N"),
 
 	("speak", "V", "0p", "R"),
 	("speak", "V", "0p", "P"),
