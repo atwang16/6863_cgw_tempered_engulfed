@@ -69,7 +69,8 @@ rules = [
 	# VP complements
 	#(("I'", ""), ("I", "v"), ("VP", "")),
 	# DP complements
-	(("VP", ""), ("V", "d"), ("DP", "", 0)),
+	(("VP", ""), ("V", "d"), ("DP", "S", 0)),
+	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
 	(("PP", ""), ("P", "d"), ("DP", "")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
@@ -119,6 +120,17 @@ rules = [
 	# adjectives
 	(("AP", ""), ("A", "_")),
 	(("DP", ""), ("D", "n"), ("AP", "", 0), ("NP", "")),
+
+	# adverbs
+	(("AdvP", ""), ("Adv", "0")),
+    #(("VP", ""), ("VP", ""), ("AdvP", "", 0)),
+    #(("VP", ""), ("AdvP", "", 0), ("VP", "")),	
+
+    # numbers
+    (("DP", ""), ("D", "n"), ("Num", ""), ("AP", "", 0), ("NP", "")),
+    (("DP", ""), ("D", "n"), ("Num", ""), ("NP", "")),
+    (("DP", ""), ("Num", ""), ("NP", "")),
+    (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -193,61 +205,6 @@ vocabulary = [
     ("strangers", "N", "0", "P"),
     ("inches", "N", "0", "P"),
 	("snakes", "N", "0", "P"),
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
-
-]
-
-# vocab format is (word, part of speech, selection parameters, other parameters)
-# part of speech: "NAME" = name/proper noun, "N" = noun, "P": preposition
-# selection parameters: "0" = no complements, "n" = NP, "d" = DP
-# selection parameters do not get passed up the chain
-# and are only used to select complements
-# other parameters get passed up chain
-vocabulary = [
-    # Names
-	("Arthur", "NAME", "0", "S"),
-	("Guinevere", "NAME", "0", "S"),
-	("Sir Lancelot", "NAME", "0", "S"),
-	("Sir Bedevere", "NAME", "0", "S"),
-	("Zoot", "NAME", "0", "S"),
-	("Patsy", "NAME", "0", "S"),
-	("Uther Pendragon", "NAME", "0", "S"),
-
-	# nouns
-	("king", "N", "0", "S"),
-	("castle", "N", "0", "S"),
-	("defeater", "N", "0", "S"),
-	("servant", "N", "0", "S"),
-	("corner", "N", "0", "S"),
-	("land", "N", "0", "S"),
-	("quest", "N", "0", "S"),
-	("chalice", "N", "0", "S"),
-	("master", "N", "0", "S"),
-	("horse", "N", "0", "S"),
-	("fruit", "N", "0", "S"),
-	("swallow", "N", "0", "S"),
-	("sun", "N", "0", "S"),
-	("winter", "N", "0", "S"),
-	("coconut", "N", "0", "S"),
-	("pound", "N", "0", "S"),
-	("husk", "N", "0", "S"),
-	("home", "N", "0", "S"),
-	("weight", "N", "0", "S"),
-	("story", "N", "0", "S"),
-	("sovereign", "N", "0", "S"),
-
-    # plural nouns
-    ("coconuts", "N", "0", "P"),
-    ("halves", "N", "0", "P"),
-    ("snows", "N", "0", "P"),
-    ("mountains", "N", "0", "P"),
-    ("areas", "N", "0", "P"),
-    ("strangers", "N", "0", "P"),
-    ("inches", "N", "0", "P"),
-	("snakes", "N", "0", "P"),
     ("ants", "N", "0", "P"),
     ("nights", "N", "0", "P"),
 
@@ -264,12 +221,12 @@ vocabulary = [
     # personal pronouns -- need to do more
 	# TODO: separate subject / object
     ("he", "Pn", "0", "S"),
-    ("her", "Pn", "0", "S"),
-    ("him", "Pn", "0", "S"),
+    #("her", "Pn", "0", "S"),
+    #("him", "Pn", "0", "S"),
     ("it", "Pn", "0", "S"),
     ("one", "Pn", "0", "S"),
     ("she", "Pn", "0", "S"),
-    ("them", "Pn", "0", "P"),
+    #("them", "Pn", "0", "P"),
     ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
@@ -279,14 +236,14 @@ vocabulary = [
     ("their", "X", "n", "P"),
 
     # adverbs -- need to do more
-    ("again", "X", "", ""),
-    ("already", "X", "", ""),
-    ("currently", "X", "", ""),
-    ("frequently", "X", "", ""),
-    ("precisely", "X", "", ""),
-    ("south", "X", "", ""),
-    ("successfully", "X", "", ""),
-    ("unfortunately", "X", "", ""),
+    ("again", "Adv", "0", ""),
+    ("already", "Adv", "0", ""),
+    ("currently", "Adv", "0", ""),
+    ("frequently", "Adv", "0", ""),
+    ("precisely", "Adv", "0", ""),
+    ("south", "Adv", "0", ""),
+    ("successfully", "Adv", "0", ""),
+    ("unfortunately", "Adv", "0", ""),
 
 	#("suggest", "V", "dc"),
 	("that", "C", "i"),
@@ -326,6 +283,24 @@ vocabulary = [
 	("where", "Q", "0"),
 	#("why", "Q", "0"),
 
+	# wh determiners
+	("that", "X", ""),
+	("what", "X", ""),
+	("which", "X", ""),
+
+	# wh pronouns
+	("what", "X", ""),
+	("who", "X", ""),
+
+	# wh possessive pronouns
+	("whose", "X", ""),
+
+	# wh adverbs
+	("how", "X", ""),
+	("when", "X", ""),
+	("where", "X", ""),
+	("why", "X", ""),
+
 	("cat", "N", "0"),
 	("dog", "N", "0"),
 	("bunny", "N", "0"),
@@ -348,6 +323,9 @@ vocabulary = [
 	(";", "X", "", ""),
 	(":", "X", "", ""),
 
+	# possessive marker
+	("'s", "X", ""),
+
 	# coordinating conjunctions -- need to do more
 	("and", "CC", "0", "A"),
 	("but", "X", "", ""),
@@ -366,24 +344,24 @@ vocabulary = [
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
-	("weary", "X", "", ""),
-	("unable", "X", "", ""),
-	("trusty", "X", "", ""),
-	("further", "X", "", ""),
-	("sacred", "X", "", ""),
-	("tropical", "X", "", ""),
-	("indigenous", "X", "", ""),
-	("temperate", "X", "", ""),
-	("hot", "X", "", ""),
-	("lucky", "X", "", ""),
-	("simple", "X", "", ""),
-	("tiny", "X", "", ""),
-	("hard", "X", "", ""),
-	("sensational", "X", "", ""),
-	("comparable", "X", "", ""),
-	("angolian", "X", "", ""),
-	("yellow", "X", "", ""),
-	("plodding", "X", "", ""),
+	("weary", "A", "_", ""),
+	("unable", "A", "_", ""),
+	("trusty", "A", "_", ""),
+	("further", "A", "_", ""),
+	("sacred", "A", "_", ""),
+	("tropical", "A", "_", ""),
+	("indigenous", "A", "_", ""),
+	("temperate", "A", "_", ""),
+	("hot", "A", "_", ""),
+	("lucky", "A", "_", ""),
+	("simple", "A", "_", ""),
+	("tiny", "A", "_", ""),
+	("hard", "A", "_", ""),
+	("sensational", "A", "_", ""),
+	("comparable", "A", "_", ""),
+	("angolian", "A", "_", ""),
+	("yellow", "A", "_", ""),
+	("plodding", "A", "_", ""),
 
 	# comparative adjectives -- need to do more
 	("bloodier", "X", "", ""),
@@ -404,12 +382,12 @@ vocabulary = [
 	("hardest", "X", "", ""),
 
 	# numbers -- need to do more
-	("eight", "X", "", ""),
-	("five", "X", "", ""),
-	("one", "X", "", ""),
-	("5.5", "X", "", ""),
-	("sixty", "X", "", ""),
-	("5,000", "X", "", ""),
+	("eight", "Num", "0", "P"),
+	("five", "Num", "0", "P"),
+	("one", "Num", "0", "S"),
+	("5.5", "Num", "0", "P"),
+	("sixty", "Num", "0", "P"),
+	("5,000", "Num", "0", "P"),
 
 	# expletives -- need to do more
 	("there", "X", "", ""),
@@ -455,19 +433,28 @@ vocabulary = [
 	("would", "I", "_", "M"),
 	("could", "I", "_", "M"),
 	("will", "I", "_", "M"),
+	("ought", "I", "_", "M"),
 
-	# verbs
+	# VERBS
 	# R: root
-	# S: singular present
-	# P: past
+	# S: singular
+	# P: plural
+	# T: past
 	# G: progressive
 	# N: perfect nonprogressive
+	#
+	# Selection parameters
+	#   0: can be intransitive
+	#   d: can be transitive and selects for DP
+	#   c: can be transitive and selects for CP
+	#   p: can be transitive and selects for PP
+	#   a: can be transitive and selects for AP
 	("knew", "V", "0dc", "PT"),
 	("knew", "V", "0dc", "ST"),
 	("know", "V", "0dc", "P"),
 	("know", "V", "0dc", "R"),
 	("knowing", "V", "0dc", "G"),
-	("known", "V", "0", "N"),
+	("known", "V", "0dc", "N"),    # TODO: deal with passive voice later
 	("knows", "V", "0dc", "S"),
 
 	("is", "V", "dpa", "S"),
@@ -476,21 +463,81 @@ vocabulary = [
 	("were", "V", "dpa", "PT"),
 	("be", "V", "dpa", "R"),
 	("being", "V", "dpa", "G"),
-	#("been", "V", "dpa", "N"),
+	("been", "V", "dpa", "N"),
 
+	("has", "V", "d", "S"),
 	("had", "V", "d", "PT"),
 	("had", "V", "d", "ST"),
+	("had", "V", "d", "N"),
 	("have", "V", "d", "R"),
+	("have", "V", "d", "P"),
+	("having", "V", "d", "G"),
 
-	("speak", "V", "0p", "R"), # can take prep phrase
 	("cover", "V", "d", "R"),
-	("be", "V", "d", "R"), # could also take predicate adjective
-	("ride", "V", "d", "R"),
-	("drink", "V", "0d", "R"),
-	("grow", "V", "0", "R"),
+	("cover", "V", "d", "P"),
+	("covers", "V", "d", "S"),
+	("covered", "V", "d", "ST"),
+	("covered", "V", "d", "PT"),
+	("covered", "V", "d", "N"),
+	("covering", "V", "d", "G"),
+
+	("drink", "V", "0dp", "R"),
+	("drink", "V", "0dp", "P"),
+	("drinks", "V", "0dp", "S"),
+	("drank", "V", "0dp", "ST"),
+	("drank", "V", "0dp", "PT"),
+	("drinking", "V", "0dp", "G"),
+	("drunk", "V", "0dp", "N"),
+
 	("carry", "V", "d", "R"),
+	("carry", "V", "d", "P"),
+	("carries", "V", "d", "S"),
+	("carried", "V", "d", "ST"),
+	("carried", "V", "d", "PT"),
+	("carried", "V", "d", "N"),
+	("carrying", "V", "d", "G"),
+
+	("ride", "V", "dp", "R"),
+	("ride", "V", "dp", "P"),
+	("rides", "V", "dp", "S"),
+	("rode", "V", "dp", "ST"),
+	("rode", "V", "dp", "PT"),
+	("riding", "V", "dp", "G"),
+	("ridden", "V", "dp", "N"),
+
+	("speak", "V", "0p", "R"),
+	("speak", "V", "0p", "P"),
+	("speaks", "V", "0p", "S"),
+	("spoke", "V", "0p", "ST"),
+	("spoke", "V", "0p", "PT"),
+	("speaking", "V", "0p", "G"),
+	("spoken", "V", "0p", "N"),
+
+	("grow", "V", "0", "R"),
+	("grow", "V", "0", "P"),
+	("grows", "V", "0", "S"),
+	("grew", "V", "0", "ST"),
+	("grew", "V", "0", "PT"),
+	("growing", "V", "0", "G"),
+	("grown", "V", "0", "N"),
+
 	("suggest", "V", "c", "R"),
-	("migrate", "V", "0p", "R"), # can take prep phrase
+	("suggest", "V", "c", "P"),
+	("suggests", "V", "c", "S"),
+	("suggested", "V", "c", "ST"),
+	("suggested", "V", "c", "PT"),
+	("suggested", "V", "c", "N"),
+	("suggesting", "V", "c", "G"),
+
+	("migrate", "V", "0p", "R"),
+	("migrate", "V", "0p", "P"),
+	("migrates", "V", "0p", "S"),
+	("migrated", "V", "0p", "ST"),
+	("migrated", "V", "0p", "PT"),
+	("migrated", "V", "0p", "N"),
+	("migrating", "V", "0p", "G"),
+
+	("goes", "V", "0p", "S"),
 ]
 
 # types of complements each head can have
@@ -534,6 +581,7 @@ def gen_rules(rule):
 		char
 		for r in rule
 		for char in r[1]
+        if not (len(r) > 2 and r[2] == 0)
 	}
 	remaining_parameters = "".join(carried_parameters - used_parameters)
 	return [
