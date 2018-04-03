@@ -30,13 +30,16 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "S"), ("I'", "S")),
-	(("IP", ""), ("DP", "P"), ("I'", "P")),
+	(("IP", ""), ("DP", "S"), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
+
+	# imperative
+	#(("S", ""), ("VP", "R")),
 
 	(("S", ""), ("CP", "."), (".", "")),
 	(("S", ""), ("CP", "?"), ("?", "")),
 
-	(("CP", "."), ("IP", "")), # null complementizer
+	(("CP", "."), ("IP", "")), # null complementizer (forced)
 
 	(("CP", ""), ("IP", "")), # null complementizer
 	(("CP", ""), ("C", "i"), ("IP", "")),
@@ -131,6 +134,39 @@ rules = [
 
     # pause
     (("DP", ""), ("DP", ""), ("Pause_,", "", 0))
+	# coordinating conjunctions
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "P", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "P", 0)),
+
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+
+	(("DP", "S"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "S", 0)),
+	(("DP", "S"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "P", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "P", 0)),
+
+	(("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
+	(("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
+
+	# TODO: add IP for and/or
+	#       and the remaining pos types for either/or and neither/nor
+
+	(("IP", ""), ("CC", "0E", 0), ("IP", ""), ("CC", "0O", 0), ("IP", "")),
+
+	(("DP", "S"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "S")),
+	(("DP", "S"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "S")),
+	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
+	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -221,7 +257,6 @@ vocabulary = [
     ("successfully", "Adv", "0", ""),
     ("unfortunately", "Adv", "0", ""),
 
-	#("suggest", "V", "dc"),
 	("that", "C", "i"),
     
     # prepositions
@@ -303,20 +338,20 @@ vocabulary = [
 	("'s", "X", ""),
 
 	# coordinating conjunctions -- need to do more
-	("and", "X", "", ""),
+	("and", "CC", "0", "A"),
 	("but", "X", "", ""),
-	("or", "X", "", ""),
-	("either", "X", "", ""),
-	("nor", "X", "", ""),
-	("neither", "X", "", ""),
+	("or", "CC", "0", "O"),
+	("either", "CC", "0", "E"),
+	("nor", "CC", "0", "R"),
+	("neither", "CC", "0", "I"),
 	("so", "X", "", ""),
 
 	# subordinating conjunctions -- need to do more
-	("that", "X", "", ""),
-	("so", "X", "", ""),
-	("while", "X", "", ""),
-	("because", "X", "", ""),
-	("if", "X", "", ""),
+	("that", "SC", "", ""),
+	("so", "SC", "", ""),
+	("while", "SC", "", ""),
+	("because", "SC", "", ""),
+	("if", "X", "SC", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
@@ -513,6 +548,10 @@ vocabulary = [
 	("migrated", "V", "0p", "N"),
 	("migrating", "V", "0p", "G"),
 
+	("do", "V", "0n", "R"),
+	("do", "V", "0n", "P"),
+	("does", "V", "0n", "S"),
+
 	("goes", "V", "0p", "S"),
 ]
 
@@ -526,6 +565,7 @@ selection_rules = {
 	"NAME": "0",
 	".": "0",
 	"?": "0",
+	"CC": "0",
 }
 
 vocab_parameters = collections.defaultdict(str, {
@@ -533,6 +573,7 @@ vocab_parameters = collections.defaultdict(str, {
 	"I": "DPSV*%$HTM",
 	"N": "SP",
 	"D": "SP",
+	"CC": "A",
 })
 
 carried_parameters = set(char for char in "m.?RSPGNTS")
@@ -592,37 +633,70 @@ def gen_grammar(rules):
 		if len(parameters) > 1
 	]
 
-	# filter out unusued rules that can't derive anything
-	#while False:
+	# filter out terms that can't terminate
+	terminatable = {
+		v[0]
+		for v in vocabulary
+	}
 	while True:
-		initial_length = len(grammar)
-		# terms are invalid if cannot derive anything
-		valid = {
+		initial_length = len(terminatable)
+
+		terminatable |= {
 			rule[0]
 			for rule in grammar
-		} | {
-			word[0]
-			for word in vocabulary
+			if all([
+				r in terminatable
+				for r in rule[1]
+			])
 		}
-		grammar = [
-			rule
-			for rule in grammar
-			if all(
-				tag in valid
-				for tag in rule[1]
-			)
-		]
 
-		# if didn't remove anything we're done
-		if len(grammar) == initial_length:
+		# if didn't add anything we're done
+		if len(terminatable) == initial_length:
 			break
+	# remove rules
+	grammar = [
+		rule
+		for rule in grammar
+		if all([
+			r in terminatable
+			for r in rule[1]
+		])
+	]
+
+	# filter out unusued rules that can't derive anything
+	#while False:
+	#while True:
+	#	initial_length = len(grammar)
+	#	# terms are invalid if cannot derive anything
+	#	valid = {
+	#		rule[0]
+	#		for rule in grammar
+	#	} | {
+	#		word[0]
+	#		for word in vocabulary
+	#	}
+	#	grammar = [
+	#		rule
+	#		for rule in grammar
+	#		if all(
+	#			tag in valid
+	#			for tag in rule[1]
+	#		)
+	#	]
+
+	#	# if didn't remove anything we're done
+	#	if len(grammar) == initial_length:
+	#		break
 
 	return grammar
+
+def is_recursive(rule):
+	return rule[0] in rule[1]
 
 def to_string(grammar):
 	return "\n".join(
 		"\t".join((
-			"1",
+			".1" if is_recursive(rule) else "1",
 			rule[0],
 			" ".join(rule[1]),
 		)) for rule in grammar
