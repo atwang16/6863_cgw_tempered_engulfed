@@ -30,8 +30,8 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "S"), ("I'", "S")),
-	(("IP", ""), ("DP", "P"), ("I'", "P")),
+	(("IP", ""), ("DP", "S"), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
 
 	# imperative
 	#(("S", ""), ("VP", "R")),
@@ -39,7 +39,7 @@ rules = [
 	(("S", ""), ("CP", "."), (".", "")),
 	(("S", ""), ("CP", "?"), ("?", "")),
 
-	(("CP", "."), ("IP", "")), # null complementizer
+	(("CP", "."), ("IP", "")), # null complementizer (forced)
 
 	(("CP", ""), ("IP", "")), # null complementizer
 	(("CP", ""), ("C", "i"), ("IP", "")),
@@ -255,7 +255,6 @@ vocabulary = [
     ("successfully", "Adv", "0", ""),
     ("unfortunately", "Adv", "0", ""),
 
-	#("suggest", "V", "dc"),
 	("that", "C", "i"),
     
     # prepositions
@@ -346,11 +345,11 @@ vocabulary = [
 	("so", "X", "", ""),
 
 	# subordinating conjunctions -- need to do more
-	("that", "X", "", ""),
-	("so", "X", "", ""),
-	("while", "X", "", ""),
-	("because", "X", "", ""),
-	("if", "X", "", ""),
+	("that", "SC", "", ""),
+	("so", "SC", "", ""),
+	("while", "SC", "", ""),
+	("because", "SC", "", ""),
+	("if", "X", "SC", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
