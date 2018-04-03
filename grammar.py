@@ -155,6 +155,16 @@ rules = [
 
 	(("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
 	(("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
+
+	# TODO: add IP for and/or
+	#       and the remaining pos types for either/or and neither/nor
+
+	(("IP", ""), ("CC", "0E", 0), ("IP", ""), ("CC", "0O", 0), ("IP", "")),
+
+	(("DP", "S"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "S")),
+	(("DP", "S"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "S")),
+	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
+	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -330,9 +340,9 @@ vocabulary = [
 	("and", "CC", "0", "A"),
 	("but", "X", "", ""),
 	("or", "CC", "0", "O"),
-	("either", "CC", "0", ""),
-	("nor", "CC", "0", ""),
-	("neither", "CC", "0", ""),
+	("either", "CC", "0", "E"),
+	("nor", "CC", "0", "R"),
+	("neither", "CC", "0", "I"),
 	("so", "X", "", ""),
 
 	# subordinating conjunctions -- need to do more
@@ -536,6 +546,10 @@ vocabulary = [
 	("migrated", "V", "0p", "PT"),
 	("migrated", "V", "0p", "N"),
 	("migrating", "V", "0p", "G"),
+
+	("do", "V", "0n", "R"),
+	("do", "V", "0n", "P"),
+	("does", "V", "0n", "S"),
 
 	("goes", "V", "0p", "S"),
 ]
