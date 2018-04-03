@@ -129,6 +129,8 @@ rules = [
     (("DP", ""), ("Num", ""), ("NP", "")),
     (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
 
+    # pause
+    (("DP", ""), ("DP", ""), ("Pause_,", "", 0))
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -291,7 +293,7 @@ vocabulary = [
 	("?", "?", "0"),
 
 	# pauses -- need to do more
-	(",", "X", "", ""),
+	(",", "Pause_,", "0", ""),
 	("...", "X", "", ""),
 	("--", "X", "", ""),
 	(";", "X", "", ""),
