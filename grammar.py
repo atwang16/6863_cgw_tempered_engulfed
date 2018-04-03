@@ -30,13 +30,13 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "S"), ("I'", "S")),
-	(("IP", ""), ("DP", "P"), ("I'", "P")),
+	(("IP", ""), ("DP", "S"), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
 
-	(("S", ""), ("CP", "."), (".", "")),
-	(("S", ""), ("CP", "?"), ("?", "")),
+	(("S", ""), ("CP", "."), (".", "")),  # declarative/exclamatory/etc sentence
+	(("S", ""), ("CP", "?"), ("?", "")),  # interrogative sentence
 
-	(("CP", "."), ("IP", "")), # null complementizer
+	(("CP", "."), ("IP", "")), # null complementizer (forced)
 
 	(("CP", ""), ("IP", "")), # null complementizer
 	(("CP", ""), ("C", "i"), ("IP", "")),
@@ -129,6 +129,13 @@ rules = [
     (("DP", ""), ("Num", ""), ("NP", "")),
     (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
 
+	# suboordinate clauses
+	(("AP", "")),  # adjective phrase
+	(("AdvP", ""), ("SP", "")),  # adverb phrase
+	(("NP", "")),  # noun phrase
+
+	(("SP", ""), ("SC", ""), ("IP", "")),
+
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -219,7 +226,6 @@ vocabulary = [
     ("successfully", "Adv", "0", ""),
     ("unfortunately", "Adv", "0", ""),
 
-	#("suggest", "V", "dc"),
 	("that", "C", "i"),
     
     # prepositions
@@ -310,11 +316,11 @@ vocabulary = [
 	("so", "X", "", ""),
 
 	# subordinating conjunctions -- need to do more
-	("that", "X", "", ""),
-	("so", "X", "", ""),
-	("while", "X", "", ""),
-	("because", "X", "", ""),
-	("if", "X", "", ""),
+	("that", "SC", "", ""),
+	("so", "SC", "", ""),
+	("while", "SC", "", ""),
+	("because", "SC", "", ""),
+	("if", "X", "SC", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
