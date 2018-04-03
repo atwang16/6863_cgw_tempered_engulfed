@@ -257,6 +257,24 @@ vocabulary = [
 	("where", "Q", "0"),
 	#("why", "Q", "0"),
 
+	# wh determiners
+	("that", "X", ""),
+	("what", "X", ""),
+	("which", "X", ""),
+
+	# wh pronouns
+	("what", "X", ""),
+	("who", "X", ""),
+
+	# wh possessive pronouns
+	("whose", "X", ""),
+
+	# wh adverbs
+	("how", "X", ""),
+	("when", "X", ""),
+	("where", "X", ""),
+	("why", "X", ""),
+
 	("cat", "N", "0"),
 	("dog", "N", "0"),
 	("bunny", "N", "0"),
@@ -278,6 +296,9 @@ vocabulary = [
 	("--", "X", "", ""),
 	(";", "X", "", ""),
 	(":", "X", "", ""),
+
+	# possessive marker
+	("'s", "X", ""),
 
 	# coordinating conjunctions -- need to do more
 	("and", "X", "", ""),
@@ -386,19 +407,28 @@ vocabulary = [
 	("would", "I", "_", "M"),
 	("could", "I", "_", "M"),
 	("will", "I", "_", "M"),
+	("ought", "I", "_", "M"),
 
-	# verbs
+	# VERBS
 	# R: root
-	# S: singular present
-	# P: past
+	# S: singular
+	# P: plural
+	# T: past
 	# G: progressive
 	# N: perfect nonprogressive
+	#
+	# Selection parameters
+	#   0: can be intransitive
+	#   d: can be transitive and selects for DP
+	#   c: can be transitive and selects for CP
+	#   p: can be transitive and selects for PP
+	#   a: can be transitive and selects for AP
 	("knew", "V", "0dc", "PT"),
 	("knew", "V", "0dc", "ST"),
 	("know", "V", "0dc", "P"),
 	("know", "V", "0dc", "R"),
 	("knowing", "V", "0dc", "G"),
-	("known", "V", "0", "N"),
+	("known", "V", "0dc", "N"),    # TODO: deal with passive voice later
 	("knows", "V", "0dc", "S"),
 
 	("is", "V", "dpa", "S"),
@@ -407,21 +437,81 @@ vocabulary = [
 	("were", "V", "dpa", "PT"),
 	("be", "V", "dpa", "R"),
 	("being", "V", "dpa", "G"),
-	#("been", "V", "dpa", "N"),
+	("been", "V", "dpa", "N"),
 
+	("has", "V", "d", "S"),
 	("had", "V", "d", "PT"),
 	("had", "V", "d", "ST"),
+	("had", "V", "d", "N"),
 	("have", "V", "d", "R"),
+	("have", "V", "d", "P"),
+	("having", "V", "d", "G"),
 
-	("speak", "V", "0p", "R"), # can take prep phrase
 	("cover", "V", "d", "R"),
-	("be", "V", "d", "R"), # could also take predicate adjective
-	("ride", "V", "d", "R"),
-	("drink", "V", "0d", "R"),
-	("grow", "V", "0", "R"),
+	("cover", "V", "d", "P"),
+	("covers", "V", "d", "S"),
+	("covered", "V", "d", "ST"),
+	("covered", "V", "d", "PT"),
+	("covered", "V", "d", "N"),
+	("covering", "V", "d", "G"),
+
+	("drink", "V", "0dp", "R"),
+	("drink", "V", "0dp", "P"),
+	("drinks", "V", "0dp", "S"),
+	("drank", "V", "0dp", "ST"),
+	("drank", "V", "0dp", "PT"),
+	("drinking", "V", "0dp", "G"),
+	("drunk", "V", "0dp", "N"),
+
 	("carry", "V", "d", "R"),
+	("carry", "V", "d", "P"),
+	("carries", "V", "d", "S"),
+	("carried", "V", "d", "ST"),
+	("carried", "V", "d", "PT"),
+	("carried", "V", "d", "N"),
+	("carrying", "V", "d", "G"),
+
+	("ride", "V", "dp", "R"),
+	("ride", "V", "dp", "P"),
+	("rides", "V", "dp", "S"),
+	("rode", "V", "dp", "ST"),
+	("rode", "V", "dp", "PT"),
+	("riding", "V", "dp", "G"),
+	("ridden", "V", "dp", "N"),
+
+	("speak", "V", "0p", "R"),
+	("speak", "V", "0p", "P"),
+	("speaks", "V", "0p", "S"),
+	("spoke", "V", "0p", "ST"),
+	("spoke", "V", "0p", "PT"),
+	("speaking", "V", "0p", "G"),
+	("spoken", "V", "0p", "N"),
+
+	("grow", "V", "0", "R"),
+	("grow", "V", "0", "P"),
+	("grows", "V", "0", "S"),
+	("grew", "V", "0", "ST"),
+	("grew", "V", "0", "PT"),
+	("growing", "V", "0", "G"),
+	("grown", "V", "0", "N"),
+
 	("suggest", "V", "c", "R"),
-	("migrate", "V", "0p", "R"), # can take prep phrase
+	("suggest", "V", "c", "P"),
+	("suggests", "V", "c", "S"),
+	("suggested", "V", "c", "ST"),
+	("suggested", "V", "c", "PT"),
+	("suggested", "V", "c", "N"),
+	("suggesting", "V", "c", "G"),
+
+	("migrate", "V", "0p", "R"),
+	("migrate", "V", "0p", "P"),
+	("migrates", "V", "0p", "S"),
+	("migrated", "V", "0p", "ST"),
+	("migrated", "V", "0p", "PT"),
+	("migrated", "V", "0p", "N"),
+	("migrating", "V", "0p", "G"),
+
+	("goes", "V", "0p", "S"),
 ]
 
 # types of complements each head can have
