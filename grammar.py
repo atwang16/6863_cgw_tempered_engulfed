@@ -140,7 +140,7 @@ rules = [
     (("DP", ""), ("Poss", ""), ("NP", "")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "", 0), ("DP", "")),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
