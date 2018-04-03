@@ -135,6 +135,10 @@ rules = [
     (("DP", ""), ("Num", ""), ("NP", "")),
     (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
 
+    # personal possessive pronouns
+    (("Poss", ""), ("PerPro", "0")),
+    (("DP", ""), ("Poss", ""), ("NP", "")),
+
     # pause
     (("DP", ""), ("DP", ""), ("Pause_,", "", 0), ("DP", "")),
 
@@ -246,10 +250,10 @@ vocabulary = [
     ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
-    ("her", "X", "n", "S"),
-    ("his", "X", "n", "S"),
-    ("its", "X", "n", "S"),
-    ("their", "X", "n", "P"),
+    ("her", "PerPro", "0", "S"),
+    ("his", "PerPro", "0", "S"),
+    ("its", "PerPro", "0", "S"),
+    ("their", "PerPro", "0", "P"),
 
     # adverbs -- need to do more
     ("again", "Adv", "0", ""),
