@@ -553,9 +553,9 @@ vocabulary = [
 	("migrated", "V", "0p", "N"),
 	("migrating", "V", "0p", "G"),
 
-	("do", "V", "0n", "R"),
-	("do", "V", "0n", "P"),
-	("does", "V", "0n", "S"),
+	("do", "V", "0d", "R"),
+	("do", "V", "0d", "P"),
+	("does", "V", "0d", "S"),
 
 	("goes", "V", "0p", "S"),
 ]
