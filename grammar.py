@@ -66,7 +66,8 @@ rules = [
 	# VP complements
 	#(("I'", ""), ("I", "v"), ("VP", "")),
 	# DP complements
-	(("VP", ""), ("V", "d"), ("DP", "", 0)),
+	(("VP", ""), ("V", "d"), ("DP", "S", 0)),
+	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
 	(("PP", ""), ("P", "d"), ("DP", "")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
@@ -116,6 +117,18 @@ rules = [
 	# adjectives
 	(("AP", ""), ("A", "_")),
 	(("DP", ""), ("D", "n"), ("AP", "", 0), ("NP", "")),
+
+	# adverbs
+	(("AdvP", ""), ("Adv", "0")),
+    #(("VP", ""), ("VP", ""), ("AdvP", "", 0)),
+    #(("VP", ""), ("AdvP", "", 0), ("VP", "")),	
+
+    # numbers
+    (("DP", ""), ("D", "n"), ("Num", ""), ("AP", "", 0), ("NP", "")),
+    (("DP", ""), ("D", "n"), ("Num", ""), ("NP", "")),
+    (("DP", ""), ("Num", ""), ("NP", "")),
+    (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
+
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -197,14 +210,14 @@ vocabulary = [
     ("their", "X", "n", "P"),
 
     # adverbs -- need to do more
-    ("again", "X", "", ""),
-    ("already", "X", "", ""),
-    ("currently", "X", "", ""),
-    ("frequently", "X", "", ""),
-    ("precisely", "X", "", ""),
-    ("south", "X", "", ""),
-    ("successfully", "X", "", ""),
-    ("unfortunately", "X", "", ""),
+    ("again", "Adv", "0", ""),
+    ("already", "Adv", "0", ""),
+    ("currently", "Adv", "0", ""),
+    ("frequently", "Adv", "0", ""),
+    ("precisely", "Adv", "0", ""),
+    ("south", "Adv", "0", ""),
+    ("successfully", "Adv", "0", ""),
+    ("unfortunately", "Adv", "0", ""),
 
 	#("suggest", "V", "dc"),
 	("that", "C", "i"),
@@ -284,24 +297,24 @@ vocabulary = [
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
-	("weary", "X", "", ""),
-	("unable", "X", "", ""),
-	("trusty", "X", "", ""),
-	("further", "X", "", ""),
-	("sacred", "X", "", ""),
-	("tropical", "X", "", ""),
-	("indigenous", "X", "", ""),
-	("temperate", "X", "", ""),
-	("hot", "X", "", ""),
-	("lucky", "X", "", ""),
-	("simple", "X", "", ""),
-	("tiny", "X", "", ""),
-	("hard", "X", "", ""),
-	("sensational", "X", "", ""),
-	("comparable", "X", "", ""),
-	("angolian", "X", "", ""),
-	("yellow", "X", "", ""),
-	("plodding", "X", "", ""),
+	("weary", "A", "", ""),
+	("unable", "A", "", ""),
+	("trusty", "A", "", ""),
+	("further", "A", "", ""),
+	("sacred", "A", "", ""),
+	("tropical", "A", "", ""),
+	("indigenous", "A", "", ""),
+	("temperate", "A", "", ""),
+	("hot", "A", "", ""),
+	("lucky", "A", "", ""),
+	("simple", "A", "", ""),
+	("tiny", "A", "", ""),
+	("hard", "A", "", ""),
+	("sensational", "A", "", ""),
+	("comparable", "A", "", ""),
+	("angolian", "A", "", ""),
+	("yellow", "A", "", ""),
+	("plodding", "A", "", ""),
 
 	# comparative adjectives -- need to do more
 	("bloodier", "X", "", ""),
@@ -322,12 +335,12 @@ vocabulary = [
 	("hardest", "X", "", ""),
 
 	# numbers -- need to do more
-	("eight", "X", "", ""),
-	("five", "X", "", ""),
-	("one", "X", "", ""),
-	("5.5", "X", "", ""),
-	("sixty", "X", "", ""),
-	("5,000", "X", "", ""),
+	("eight", "Num", "0", "P"),
+	("five", "Num", "0", "P"),
+	("one", "Num", "0", "S"),
+	("5.5", "Num", "0", "P"),
+	("sixty", "Num", "0", "P"),
+	("5,000", "Num", "0", "P"),
 
 	# expletives -- need to do more
 	("there", "X", "", ""),
@@ -450,6 +463,7 @@ def gen_rules(rule):
 		char
 		for r in rule
 		for char in r[1]
+        if not (len(r) > 2 and r[2] == 0)
 	}
 	remaining_parameters = "".join(carried_parameters - used_parameters)
 	return [
