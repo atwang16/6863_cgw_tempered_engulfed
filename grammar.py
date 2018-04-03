@@ -123,8 +123,8 @@ rules = [
 
 	# adverbs
 	(("AdvP", ""), ("Adv", "0")),
-    #(("VP", ""), ("VP", ""), ("AdvP", "", 0)),
-    #(("VP", ""), ("AdvP", "", 0), ("VP", "")),	
+    (("VP", ""), ("VP", ""), ("AdvP", "", 0)),
+    (("VP", ""), ("AdvP", "", 0), ("VP", "")),
 
     # numbers
     (("DP", ""), ("D", "n"), ("Num", ""), ("AP", "", 0), ("NP", "")),
@@ -168,6 +168,9 @@ rules = [
 	(("DP", "S"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "S")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
+
+	(("AdvP", ""), ("SP", "")),
+	(("SP", ""), ("SC", ""), ("IP", "")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -352,7 +355,7 @@ vocabulary = [
 	("so", "SC", "", ""),
 	("while", "SC", "", ""),
 	("because", "SC", "", ""),
-	("if", "X", "SC", ""),
+	("if", "SC", "", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
