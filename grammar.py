@@ -33,6 +33,9 @@ rules = [
 	(("IP", ""), ("DP", "S"), ("I'", "S")),
 	(("IP", ""), ("DP", "P"), ("I'", "P")),
 
+	# imperative
+	#(("S", ""), ("VP", "R")),
+
 	(("S", ""), ("CP", "."), (".", "")),
 	(("S", ""), ("CP", "?"), ("?", "")),
 
@@ -116,6 +119,85 @@ rules = [
 	# adjectives
 	(("AP", ""), ("A", "_")),
 	(("DP", ""), ("D", "n"), ("AP", "", 0), ("NP", "")),
+
+	# coordinating conjunctions
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "P", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "P", 0)),
+
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+
+	(("DP", "S"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "S", 0)),
+	(("DP", "S"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "S", 0)),
+	(("DP", "P"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "P", 0)),
+	(("DP", "P"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "P", 0)),
+
+	(("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
+	(("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
+]
+
+# vocab format is (word, part of speech, selection parameters, other parameters)
+# part of speech: "NAME" = name/proper noun, "N" = noun, "P": preposition
+# selection parameters: "0" = no complements, "n" = NP, "d" = DP
+# selection parameters do not get passed up the chain
+# and are only used to select complements
+# other parameters get passed up chain
+vocabulary = [
+    # Names
+	("Arthur", "NAME", "0", "S"),
+	("Guinevere", "NAME", "0", "S"),
+	("Sir Lancelot", "NAME", "0", "S"),
+	("Sir Bedevere", "NAME", "0", "S"),
+	("Zoot", "NAME", "0", "S"),
+	("Patsy", "NAME", "0", "S"),
+	("Uther Pendragon", "NAME", "0", "S"),
+
+	# nouns
+	("king", "N", "0", "S"),
+	("castle", "N", "0", "S"),
+	("defeater", "N", "0", "S"),
+	("servant", "N", "0", "S"),
+	("corner", "N", "0", "S"),
+	("land", "N", "0", "S"),
+	("quest", "N", "0", "S"),
+	("chalice", "N", "0", "S"),
+	("master", "N", "0", "S"),
+	("horse", "N", "0", "S"),
+	("fruit", "N", "0", "S"),
+	("swallow", "N", "0", "S"),
+	("sun", "N", "0", "S"),
+	("winter", "N", "0", "S"),
+	("coconut", "N", "0", "S"),
+	("pound", "N", "0", "S"),
+	("husk", "N", "0", "S"),
+	("home", "N", "0", "S"),
+	("weight", "N", "0", "S"),
+	("story", "N", "0", "S"),
+	("sovereign", "N", "0", "S"),
+
+    # plural nouns
+    ("coconuts", "N", "0", "P"),
+    ("halves", "N", "0", "P"),
+    ("snows", "N", "0", "P"),
+    ("mountains", "N", "0", "P"),
+    ("areas", "N", "0", "P"),
+    ("strangers", "N", "0", "P"),
+    ("inches", "N", "0", "P"),
+	("snakes", "N", "0", "P"),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -267,12 +349,12 @@ vocabulary = [
 	(":", "X", "", ""),
 
 	# coordinating conjunctions -- need to do more
-	("and", "X", "", ""),
+	("and", "CC", "0", "A"),
 	("but", "X", "", ""),
-	("or", "X", "", ""),
-	("either", "X", "", ""),
-	("nor", "X", "", ""),
-	("neither", "X", "", ""),
+	("or", "CC", "0", "O"),
+	("either", "CC", "0", ""),
+	("nor", "CC", "0", ""),
+	("neither", "CC", "0", ""),
 	("so", "X", "", ""),
 
 	# subordinating conjunctions -- need to do more
@@ -421,6 +503,7 @@ selection_rules = {
 	"NAME": "0",
 	".": "0",
 	"?": "0",
+	"CC": "0",
 }
 
 vocab_parameters = collections.defaultdict(str, {
@@ -428,6 +511,7 @@ vocab_parameters = collections.defaultdict(str, {
 	"I": "DPSV*%$HTM",
 	"N": "SP",
 	"D": "SP",
+	"CC": "A",
 })
 
 carried_parameters = set(char for char in "m.?RSPGNTS")
@@ -486,37 +570,70 @@ def gen_grammar(rules):
 		if len(parameters) > 1
 	]
 
-	# filter out unusued rules that can't derive anything
-	#while False:
+	# filter out terms that can't terminate
+	terminatable = {
+		v[0]
+		for v in vocabulary
+	}
 	while True:
-		initial_length = len(grammar)
-		# terms are invalid if cannot derive anything
-		valid = {
+		initial_length = len(terminatable)
+
+		terminatable |= {
 			rule[0]
 			for rule in grammar
-		} | {
-			word[0]
-			for word in vocabulary
+			if all([
+				r in terminatable
+				for r in rule[1]
+			])
 		}
-		grammar = [
-			rule
-			for rule in grammar
-			if all(
-				tag in valid
-				for tag in rule[1]
-			)
-		]
 
-		# if didn't remove anything we're done
-		if len(grammar) == initial_length:
+		# if didn't add anything we're done
+		if len(terminatable) == initial_length:
 			break
+	# remove rules
+	grammar = [
+		rule
+		for rule in grammar
+		if all([
+			r in terminatable
+			for r in rule[1]
+		])
+	]
+
+	# filter out unusued rules that can't derive anything
+	#while False:
+	#while True:
+	#	initial_length = len(grammar)
+	#	# terms are invalid if cannot derive anything
+	#	valid = {
+	#		rule[0]
+	#		for rule in grammar
+	#	} | {
+	#		word[0]
+	#		for word in vocabulary
+	#	}
+	#	grammar = [
+	#		rule
+	#		for rule in grammar
+	#		if all(
+	#			tag in valid
+	#			for tag in rule[1]
+	#		)
+	#	]
+
+	#	# if didn't remove anything we're done
+	#	if len(grammar) == initial_length:
+	#		break
 
 	return grammar
+
+def is_recursive(rule):
+	return rule[0] in rule[1]
 
 def to_string(grammar):
 	return "\n".join(
 		"\t".join((
-			"1",
+			".1" if is_recursive(rule) else "1",
 			rule[0],
 			" ".join(rule[1]),
 		)) for rule in grammar
