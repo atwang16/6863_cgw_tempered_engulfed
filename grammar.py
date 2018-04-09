@@ -187,7 +187,7 @@ rules = [
 # and are only used to select complements
 # other parameters get passed up chain
 vocabulary = [
-    # Names
+    # Names - split proper nouns
 	("Arthur", "NAME", "0", "S"),
 	("Guinevere", "NAME", "0", "S"),
 	("Sir Lancelot", "NAME", "0", "S"),
@@ -195,11 +195,13 @@ vocabulary = [
 	("Zoot", "NAME", "0", "S"),
 	("Patsy", "NAME", "0", "S"),
 	("Uther Pendragon", "NAME", "0", "S"),
+    ("Dingo", "NAME", "0", "S"),
 
 	# nouns
-	("king", "N", "0", "S"),
 	("castle", "N", "0", "S"),
+	("king", "N", "0", "S"),
 	("defeater", "N", "0", "S"),
+	("sovereign", "N", "0", "S"),
 	("servant", "N", "0", "S"),
 	("corner", "N", "0", "S"),
 	("land", "N", "0", "S"),
@@ -217,7 +219,6 @@ vocabulary = [
 	("home", "N", "0", "S"),
 	("weight", "N", "0", "S"),
 	("story", "N", "0", "S"),
-	("sovereign", "N", "0", "S"),
 
     # plural nouns
     ("coconuts", "N", "0", "P"),
@@ -341,10 +342,10 @@ vocabulary = [
 
 	# pauses -- need to do more
 	(",", "Pause_,", "0", ""),
-	("...", "X", "", ""),
-	("--", "X", "", ""),
-	(";", "X", "", ""),
-	(":", "X", "", ""),
+	("...", "Pause_...", "", ""),
+	("--", "Pause_--", "", ""),
+	(";", "Pause_;", "", ""),
+	(":", "Pause_:", "", ""),
 
 	# possessive marker
 	("'s", "X", ""),
