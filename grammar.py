@@ -34,7 +34,7 @@ rules = [
 	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
 
 	# imperative
-	#(("S", ""), ("VP", "R")),
+	(("S", ""), ("I'", "P"), (".", "")),
 
 	(("S", ""), ("CP", "."), (".", "")),
 	#(("S", ""), ("CP", "?"), ("?", "")),
@@ -148,6 +148,11 @@ rules = [
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
 	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+
+	# negation
+	# TODO: prohibit consecutive "not"s
+	(("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
+	(("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
 
 	# verb as subject
 	(("DP", "S"), ("VP", "G")),
@@ -494,7 +499,7 @@ vocabulary = [
 	("to", "X", "", ""),
 
 	# 'not'
-	("not", "X", "", ""),
+	("not", "Neg", "", ""),
 
 
 	# note: don't currently have rules / parameters to handle below words
