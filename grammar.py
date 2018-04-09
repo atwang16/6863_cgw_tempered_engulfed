@@ -176,7 +176,10 @@ rules = [
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
+	# (("S", ""), ("SP", ""), ("Pause_,", "0", 0), ("IP", "")),
 	(("AdvP", ""), ("SP", "")),
+	(("DP", ""), ("DP", ""), ("SP", "j", 0)),
+	(("DP", ""), ("DP", ""), ("SC", "d"), ("IP", "a")),
 	(("SP", ""), ("SC", ""), ("IP", "")),
 ]
 
@@ -358,12 +361,17 @@ vocabulary = [
 	("neither", "CC", "0", "I"),
 	("so", "X", "", ""),
 
-	# subordinating conjunctions -- need to do more
-	("that", "SC", "", ""),
+	# subordinating conjunctions
+	#  j - adjective clause with subject
+	#  d - adjective clause without subject
+	("that", "SC", "dj", ""),
 	("so", "SC", "", ""),
 	("while", "SC", "", ""),
 	("because", "SC", "", ""),
 	("if", "SC", "", ""),
+	("when", "SC", "", ""),
+	("where", "SC", "j", ""),
+	("why", "SC", "", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
