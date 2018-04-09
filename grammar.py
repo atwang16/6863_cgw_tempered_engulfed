@@ -137,6 +137,7 @@ rules = [
 
     # personal possessive pronouns
     (("Poss", ""), ("PerPro", "0")),
+    (("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
     (("DP", ""), ("Poss", ""), ("NP", "")),
 
     # pause
@@ -275,12 +276,12 @@ vocabulary = [
     # personal pronouns -- need to do more
 	# TODO: separate subject / object
     ("he", "Pn", "0", "S"),
-    #("her", "Pn", "0", "S"),
-    #("him", "Pn", "0", "S"),
+    ("her", "PerPro", "0", "S"),
+    ("him", "PerPro", "0", "S"),
     ("it", "Pn", "0", "S"),
     ("one", "Pn", "0", "S"),
     ("she", "Pn", "0", "S"),
-    #("them", "Pn", "0", "P"),
+    ("them", "PerPro", "0", "P"),
     ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
