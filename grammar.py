@@ -215,11 +215,11 @@ rules = [
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
-	# (("S", ""), ("SP", ""), ("Pause_,", "0", 0), ("IP", "")),
-	(("AdvP", ""), ("SP", "")),
-	(("DP", ""), ("DP", ""), ("SP", "j", 0)),
-	(("DP", ""), ("DP", ""), ("SC", "d"), ("IP", "a")),
-	(("SP", ""), ("SC", ""), ("IP", "")),
+	(("VP", ""), ("VP", ""), ("SP", "v", 0)),
+	(("DP", ""), ("DP", ""), ("SP", "n", 0)),
+	(("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
+	(("SP", "v"), ("SC", "v"), ("IP", "", 0)),
+	(("SP", "n"), ("SC", "n"), ("IP", "", 0)),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -426,16 +426,17 @@ vocabulary = [
 	("so", "X", "", ""),
 
 	# subordinating conjunctions
-	#  j - adjective clause with subject
+	#  n - adjective clause with subject
 	#  d - adjective clause without subject
-	("that", "SC", "dj", ""),
-	("so", "SC", "", ""),
-	("while", "SC", "", ""),
-	("because", "SC", "", ""),
-	("if", "SC", "", ""),
-	("when", "SC", "", ""),
-	("where", "SC", "j", ""),
-	("why", "SC", "", ""),
+	#  a - adverb clause
+	("that", "SC", "nd", ""),
+	("so", "SC", "v", ""),
+	("while", "SC", "v", ""),
+	("because", "SC", "v", ""),
+	("if", "SC", "", "v"),
+	("when", "SC", "v", ""),
+	("where", "SC", "n", ""),
+	("why", "X", "v", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
@@ -654,6 +655,7 @@ selection_rules = {
 	".": "0",
 	"?": "0",
 	"CC": "0",
+	"SC": "ndv",
 }
 
 vocab_parameters = collections.defaultdict(str, {
