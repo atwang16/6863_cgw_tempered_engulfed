@@ -116,8 +116,10 @@ rules = [
 	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
 	(("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
 	(("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
-	(("I'", "P"), ("I", "VP_", 0), ("VP", "N")), # passive plural, eg are known
-	(("I'", "S"), ("I", "VS_", 0), ("VP", "N")), # passive singular, eg is known
+	(("I'", "P"), ("I", "VP_", 0), ("VP", "E")), # passive plural, eg are known
+	(("I'", "S"), ("I", "VS_", 0), ("VP", "E")), # passive singular, eg is known
+
+	(("VP", "E"), ("V", "Nd")),  # passive voice: VP to V requires ability to take DP
 
 	(("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
 	(("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
@@ -143,7 +145,11 @@ rules = [
 
 	# CP with root form VP
 	(("CP", "F"), ("DP", "S", 0), ("VP", "R")), # she carry
+	(("CP", "F"), ("DP", "S", 0), ("I", "*_", 0), ("VP", "E", 0)), # she be carried (passive sing.)
+	(("CP", "F"), ("DP", "P", 0), ("I", "*_", 0), ("VP", "E")), # she be carried (passive plural)
 	(("CP", "F"), ("C", "i", 0), ("DP", "S", 0), ("VP", "R")), # that she carry
+	(("CP", "F"), ("C", "i", 0), ("DP", "S", 0), ("I", "*_", 0), ("VP", "E", 0)), # that she be carried (passive sing.)
+	(("CP", "F"), ("C", "i", 0), ("DP", "P", 0), ("I", "*_", 0), ("VP", "E")), # that she be carried (passive plural)
 
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
@@ -220,6 +226,7 @@ rules = [
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
+	# subordinate phrases
 	(("VP", ""), ("VP", ""), ("SP", "v", 0)),
 	(("DP", ""), ("DP", ""), ("SP", "n", 0)),
 	(("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
