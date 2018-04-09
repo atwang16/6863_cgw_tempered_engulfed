@@ -138,7 +138,7 @@ with open(args.grammar, 'r') as grammar_file:
 
 # generate sentences
 for i in range(args.count):
-    sentence = SentenceNode("S")
+    sentence = SentenceNode("IP_(W)")
     queue = deque()  # queue of symbols to expand
     queue.append(sentence)
 

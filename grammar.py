@@ -30,8 +30,8 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "S"), ("I'", "S")),  # singular
-	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
+	(("IP", ""), ("DP", "S", 0), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "P", 0), ("I'", "P")),  # plural
 
 	# imperative
 	(("S", ""), ("I'", "P"), (".", "")),
@@ -154,6 +154,7 @@ rules = [
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
 	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+	(("DP", "S"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
