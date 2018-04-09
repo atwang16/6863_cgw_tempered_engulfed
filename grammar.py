@@ -140,7 +140,10 @@ rules = [
     (("DP", ""), ("Poss", ""), ("NP", "")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "")),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0), ("Pause_,", "0", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0), ("Pause_,", "0", 0)),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -189,13 +192,37 @@ rules = [
 vocabulary = [
     # Names - split proper nouns
 	("Arthur", "NAME", "0", "S"),
+    ("Sir Arthur", "NAME", "0", "S"),
+    ("Sir Arthur Pendragon", "NAME", "0", "S"),
+    ("Arthur Pendragon", "NAME", "0", "S"),
 	("Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere Pendragon", "NAME", "0", "S"),
+    ("Guinevere Pendragon", "NAME", "0", "S"),
+    ("Lancelot", "NAME", "0", "S"),
 	("Sir Lancelot", "NAME", "0", "S"),
+    ("Lancelot Pendragon", "NAME", "0", "S"),
+    ("Sir Lancelot Pendragon", "NAME", "0", "S"),
+    ("Bedevere", "NAME", "0", "S"),
 	("Sir Bedevere", "NAME", "0", "S"),
+    ("Sir Bedevere Pendragon", "NAME", "0", "S"),
+    ("Bedevere Pendragon", "NAME", "0", "S"),
 	("Zoot", "NAME", "0", "S"),
+    ("Sir Zoot", "NAME", "0", "S"),
+    ("Sir Zoot Pendragon", "NAME", "0", "S"),
+    ("Zoot Pendragon", "NAME", "0", "S"),
 	("Patsy", "NAME", "0", "S"),
+    ("Sir Patsy", "NAME", "0", "S"),
+    ("Sir Patsy Pendragon", "NAME", "0", "S"),
+    ("Patsy Pendragon", "NAME", "0", "S"),
+    ("Uther", "NAME", "0", "S"),
+    ("Sir Uther", "NAME", "0", "S"),
+    ("Sir Uther Pendragon", "NAME", "0", "S"),
 	("Uther Pendragon", "NAME", "0", "S"),
     ("Dingo", "NAME", "0", "S"),
+    ("Sir Dingo", "NAME", "0", "S"),
+    ("Sir Dingo Pendragon", "NAME", "0", "S"),
+    ("Dingo Pendragon", "NAME", "0", "S"),
 
 	# nouns
 	("castle", "N", "0", "S"),
