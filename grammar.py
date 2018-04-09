@@ -169,10 +169,17 @@ rules = [
 
     # personal possessive pronouns
     (("Poss", ""), ("PerPro", "0")),
+    (("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
     (("DP", ""), ("Poss", ""), ("NP", "")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "")),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0), ("Pause_,", "0", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0), ("Pause_,", "0", 0)),
+    (("IP", ""), ("SP", ""), ("Pause_,", "0", 0), ("IP", "")),
+    (("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -219,19 +226,45 @@ rules = [
 # and are only used to select complements
 # other parameters get passed up chain
 vocabulary = [
-    # Names
+    # Names - split proper nouns
 	("Arthur", "NAME", "0", "S"),
+    ("Sir Arthur", "NAME", "0", "S"),
+    ("Sir Arthur Pendragon", "NAME", "0", "S"),
+    ("Arthur Pendragon", "NAME", "0", "S"),
 	("Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere Pendragon", "NAME", "0", "S"),
+    ("Guinevere Pendragon", "NAME", "0", "S"),
+    ("Lancelot", "NAME", "0", "S"),
 	("Sir Lancelot", "NAME", "0", "S"),
+    ("Lancelot Pendragon", "NAME", "0", "S"),
+    ("Sir Lancelot Pendragon", "NAME", "0", "S"),
+    ("Bedevere", "NAME", "0", "S"),
 	("Sir Bedevere", "NAME", "0", "S"),
+    ("Sir Bedevere Pendragon", "NAME", "0", "S"),
+    ("Bedevere Pendragon", "NAME", "0", "S"),
 	("Zoot", "NAME", "0", "S"),
+    ("Sir Zoot", "NAME", "0", "S"),
+    ("Sir Zoot Pendragon", "NAME", "0", "S"),
+    ("Zoot Pendragon", "NAME", "0", "S"),
 	("Patsy", "NAME", "0", "S"),
+    ("Sir Patsy", "NAME", "0", "S"),
+    ("Sir Patsy Pendragon", "NAME", "0", "S"),
+    ("Patsy Pendragon", "NAME", "0", "S"),
+    ("Uther", "NAME", "0", "S"),
+    ("Sir Uther", "NAME", "0", "S"),
+    ("Sir Uther Pendragon", "NAME", "0", "S"),
 	("Uther Pendragon", "NAME", "0", "S"),
+    ("Dingo", "NAME", "0", "S"),
+    ("Sir Dingo", "NAME", "0", "S"),
+    ("Sir Dingo Pendragon", "NAME", "0", "S"),
+    ("Dingo Pendragon", "NAME", "0", "S"),
 
 	# nouns
-	("king", "N", "0", "S"),
 	("castle", "N", "0", "S"),
+	("king", "N", "0", "S"),
 	("defeater", "N", "0", "S"),
+	("sovereign", "N", "0", "S"),
 	("servant", "N", "0", "S"),
 	("corner", "N", "0", "S"),
 	("land", "N", "0", "S"),
@@ -249,7 +282,6 @@ vocabulary = [
 	("home", "N", "0", "S"),
 	("weight", "N", "0", "S"),
 	("story", "N", "0", "S"),
-	("sovereign", "N", "0", "S"),
 
     # plural nouns
     ("coconuts", "N", "0", "P"),
@@ -276,12 +308,12 @@ vocabulary = [
     # personal pronouns -- need to do more
 	# TODO: separate subject / object
     ("he", "Pn", "0", "S"),
-    #("her", "Pn", "0", "S"),
-    #("him", "Pn", "0", "S"),
+    ("her", "PerPro", "0", "S"),
+    ("him", "PerPro", "0", "S"),
     ("it", "Pn", "0", "S"),
     ("one", "Pn", "0", "S"),
     ("she", "Pn", "0", "S"),
-    #("them", "Pn", "0", "P"),
+    ("them", "PerPro", "0", "P"),
     ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
@@ -373,13 +405,13 @@ vocabulary = [
 
 	# pauses -- need to do more
 	(",", "Pause_,", "0", ""),
-	("...", "X", "", ""),
-	("--", "X", "", ""),
-	(";", "X", "", ""),
-	(":", "X", "", ""),
+	("...", "Pause_...", "0", ""),
+	("--", "Pause_--", "0", ""),
+	(";", "Pause_;", "0", ""),
+	(":", "Pause_:", "0", ""),
 
 	# possessive marker
-	("'s", "X", ""),
+	("'s", "PosMar", "0", ""),
 
 	# coordinating conjunctions -- need to do more
 	("and", "CC", "0", "A"),
@@ -396,6 +428,7 @@ vocabulary = [
 	("while", "SC", "", ""),
 	("because", "SC", "", ""),
 	("if", "SC", "", ""),
+    ("when", "SC", "", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
