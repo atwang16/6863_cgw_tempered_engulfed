@@ -386,6 +386,8 @@ vocabulary = [
 	("angolian", "A", "_", ""),
 	("yellow", "A", "_", ""),
 	("plodding", "A", "_", ""),
+	("Round", "A", "_", ""),
+	("Holy", "A", "_", ""),
 
 	# comparative adjectives -- need to do more
 	("bloodier", "X", "", ""),
@@ -566,6 +568,8 @@ vocabulary = [
 	("does", "V", "0d", "S"),
 
 	("goes", "V", "0p", "S"),
+	("ate", "V", "0dp", "ST"),
+	("ate", "V", "0dp", "PT"),
 ]
 
 # types of complements each head can have
