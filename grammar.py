@@ -54,7 +54,10 @@ rules = [
 	(("DP", "P"), ("NP", "P")),
 
 	# PP adjuncts
+	(("VP", ""), ("VP", ""), ("PP", "", 0)),
 	(("NP", ""), ("NP", ""), ("PP", "", 0)),
+	(("VP", "W"), ("VP", ""), ("PP", "W", 0)),
+	(("NP", "W"), ("NP", ""), ("PP", "W", 0)),
 
 	# CP adjunct
 	(("NP", ""), ("NP", ""), ("CP", "a")),
@@ -74,6 +77,8 @@ rules = [
 	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
 	(("PP", ""), ("P", "d"), ("DP", "P")),
 	(("PP", ""), ("P", "d"), ("DP", "S")),
+	(("VP", "W"), ("V", "d")),
+	(("PP", "W"), ("P", "d")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
@@ -131,6 +136,10 @@ rules = [
 	# how/why
 	(("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
 	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+
+	# wh movement
+	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
+	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
 
 	# verb as subject
 	(("DP", "S"), ("VP", "G")),
@@ -316,9 +325,9 @@ vocabulary = [
 	("this", "D", "n", "S"),
 
 	# wh words
-	("what", "Q", "0"),
-	("who", "Q", "0"),
-	("where", "Q", "0"),
+	("what", "W", ""),
+	("who", "W", ""),
+	#("where", "W", "0"),
 	#("why", "Q", "0"),
 
 	# wh determiners
@@ -607,7 +616,7 @@ vocab_parameters = collections.defaultdict(str, {
 	"CC": "A",
 })
 
-carried_parameters = set(char for char in "m.?RSPGNTSC")
+carried_parameters = set(char for char in "m.?RSPGNTSCW")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
