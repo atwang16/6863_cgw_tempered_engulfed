@@ -83,10 +83,14 @@ rules = [
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
+	(("VP", "W"), ("V", "c"), ("CP", "W", 0)),
 	# AP complements
 	(("VP", ""), ("V", "a"), ("AP", "", 0)),
     # PP complements
     (("VP", ""), ("V", "p"), ("PP", "", 0)),
+	# root form CP complements
+	(("VP", ""), ("V", "r"), ("CP", "F", 0)),
+	(("VP", "W"), ("V", "r"), ("CP", "FW", 0)),
 
 	# inflection rules
 	# I' parameters:
@@ -136,6 +140,10 @@ rules = [
 	# how/why
 	(("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
 	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+
+	# CP with root form VP
+	(("CP", "F"), ("DP", "S", 0), ("VP", "R")), # she carry
+	(("CP", "F"), ("C", "i", 0), ("DP", "S", 0), ("VP", "R")), # that she carry
 
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
@@ -570,13 +578,13 @@ vocabulary = [
 	("growing", "V", "0", "G"),
 	("grown", "V", "0", "N"),
 
-	("suggest", "V", "c", "R"),
-	("suggest", "V", "c", "P"),
-	("suggests", "V", "c", "S"),
-	("suggested", "V", "c", "ST"),
-	("suggested", "V", "c", "PT"),
-	("suggested", "V", "c", "N"),
-	("suggesting", "V", "c", "G"),
+	("suggest", "V", "dcr", "R"),
+	("suggest", "V", "dcr", "P"),
+	("suggests", "V", "dcr", "S"),
+	("suggested", "V", "dcr", "ST"),
+	("suggested", "V", "dcr", "PT"),
+	("suggested", "V", "dcr", "N"),
+	("suggesting", "V", "dcr", "G"),
 
 	("migrate", "V", "0p", "R"),
 	("migrate", "V", "0p", "P"),
@@ -597,7 +605,7 @@ vocabulary = [
 
 # types of complements each head can have
 selection_rules = {
-	"V": "0dcpa",
+	"V": "0dcpar",
 	"I": "_",
 	"N": "0",
 	"D": "n",
