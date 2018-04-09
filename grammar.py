@@ -144,6 +144,9 @@ rules = [
     (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0)),
     (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0), ("Pause_,", "0", 0)),
     (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0), ("Pause_,", "0", 0)),
+    (("IP", ""), ("SP", ""), ("Pause_,", "0", 0), ("IP", "")),
+    (("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -369,13 +372,13 @@ vocabulary = [
 
 	# pauses -- need to do more
 	(",", "Pause_,", "0", ""),
-	("...", "Pause_...", "", ""),
-	("--", "Pause_--", "", ""),
-	(";", "Pause_;", "", ""),
-	(":", "Pause_:", "", ""),
+	("...", "Pause_...", "0", ""),
+	("--", "Pause_--", "0", ""),
+	(";", "Pause_;", "0", ""),
+	(":", "Pause_:", "0", ""),
 
 	# possessive marker
-	("'s", "X", ""),
+	("'s", "PosMar", "0", ""),
 
 	# coordinating conjunctions -- need to do more
 	("and", "CC", "0", "A"),
@@ -392,6 +395,7 @@ vocabulary = [
 	("while", "SC", "", ""),
 	("because", "SC", "", ""),
 	("if", "SC", "", ""),
+    ("when", "SC", "", ""),
 
 	# adjectives -- need to do more
 	("bloody", "A", "_", ""),
