@@ -37,7 +37,7 @@ rules = [
 	#(("S", ""), ("VP", "R")),
 
 	(("S", ""), ("CP", "."), (".", "")),
-	(("S", ""), ("CP", "?"), ("?", "")),
+	#(("S", ""), ("CP", "?"), ("?", "")),
 
 	(("CP", "."), ("IP", "")), # null complementizer (forced)
 
@@ -51,6 +51,7 @@ rules = [
 	# null determiner
 	(("DP", ""), ("NAME", "0")),
 	(("DP", ""), ("Pn", "0")),
+	(("DP", "P"), ("NP", "P")),
 
 	# PP adjuncts
 	(("NP", ""), ("NP", ""), ("PP", "", 0)),
@@ -94,28 +95,42 @@ rules = [
 	(("I'", "G"), ("VP", "G")), # progressive
 	(("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(("I'", "G"), ("I", "$_"), ("VP", "N")), # passive progressive, eg being known
-	(("I'", "N"), ("I", "%_"), ("VP", "N")), # perfect nonprogressive, eg been known
-	(("I'", "N"), ("I", "%_"), ("VP", "G")), # perfect nonprogressive, eg been knowing
-	(("I'", "R"), ("I", "*_"), ("VP", "N")), # eg be known
-	(("I'", "R"), ("I", "*_"), ("VP", "G")), # eg be knowing
+	(("I'", "G"), ("I", "$_", 0), ("VP", "N")), # passive progressive, eg being known
+	(("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
+	(("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
+	(("I'", "R"), ("I", "*_", 0), ("VP", "N")), # eg be known
+	(("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
 
 	(("I'", "P"), ("VP", "P")), # active plural, eg know
 	(("I'", "S"), ("VP", "S")), # active singular, eg knows
 	(("I'", "P"), ("VP", "PT")), # past plural, eg knew
 	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
-	(("I'", "P"), ("I", "DP_"), ("VP", "R")), # active plural, eg do know
-	(("I'", "S"), ("I", "DS_"), ("VP", "R")), # active singular, eg does know;
-	(("I'", "P"), ("I", "VP_"), ("VP", "N")), # passive plural, eg are known
-	(("I'", "S"), ("I", "VS_"), ("VP", "N")), # passive singular, eg is known
+	(("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
+	(("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
+	(("I'", "P"), ("I", "VP_", 0), ("VP", "N")), # passive plural, eg are known
+	(("I'", "S"), ("I", "VS_", 0), ("VP", "N")), # passive singular, eg is known
 
-	(("I'", "S"), ("I", "VS_"), ("I'", "G")), # continuous singular, eg is knowing
-	(("I'", "P"), ("I", "VP_"), ("I'", "G")), # continuous plural, eg are knowing
+	(("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
+	(("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
 
-	(("I'", "R"), ("I", "HB_"), ("I'", "N")), # have known
+	(("I'", "R"), ("I", "HB_", 0), ("I'", "N")), # have known
 
-	(("I'", "S"), ("I", "M_"), ("I'", "R")), # modality, eg should know
-	(("I'", "P"), ("I", "M_"), ("I'", "R")), # modality, eg should know
+	(("I'", "S"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+	(("I'", "P"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+
+	# I to C movement
+	# TODO: prohibit null inflector movement (i don't know where it's coming from...)
+	(("VP", "C"), ("DP", "S", 0), ("VP", "")), # the horse know
+	(("VP", "C"), ("DP", "P", 0), ("VP", "")), # the snakes know
+	(("I'", "C"), ("DP", "S", 0), ("I'", "")), # the horse knowing
+	(("I'", "C"), ("DP", "P", 0), ("I'", "")), # the snakes knowing
+	(("IP", "C"), ("I'", "CS")), # does the horse know
+	(("IP", "C"), ("I'", "CP")), # do the snakes know
+	(("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
+
+	# how/why
+	(("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
+	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
 
 	# verb as subject
 	(("DP", "S"), ("VP", "G")),
@@ -319,10 +334,10 @@ vocabulary = [
 	("whose", "X", ""),
 
 	# wh adverbs
-	("how", "X", ""),
-	("when", "X", ""),
-	("where", "X", ""),
-	("why", "X", ""),
+	("how", "H", ""),
+	("why", "H", ""),
+	("when", "H", ""),
+	("where", "H", ""),
 
 	("cat", "N", "0"),
 	("dog", "N", "0"),
@@ -592,7 +607,7 @@ vocab_parameters = collections.defaultdict(str, {
 	"CC": "A",
 })
 
-carried_parameters = set(char for char in "m.?RSPGNTS")
+carried_parameters = set(char for char in "m.?RSPGNTSC")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
