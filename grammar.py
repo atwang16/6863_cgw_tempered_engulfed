@@ -37,7 +37,7 @@ rules = [
 	#(("S", ""), ("VP", "R")),
 
 	(("S", ""), ("CP", "."), (".", "")),
-	(("S", ""), ("CP", "?"), ("?", "")),
+	#(("S", ""), ("CP", "?"), ("?", "")),
 
 	(("CP", "."), ("IP", "")), # null complementizer (forced)
 
@@ -51,9 +51,13 @@ rules = [
 	# null determiner
 	(("DP", ""), ("NAME", "0")),
 	(("DP", ""), ("Pn", "0")),
+	(("DP", "P"), ("NP", "P")),
 
 	# PP adjuncts
+	(("VP", ""), ("VP", ""), ("PP", "", 0)),
 	(("NP", ""), ("NP", ""), ("PP", "", 0)),
+	(("VP", "W"), ("VP", ""), ("PP", "W", 0)),
+	(("NP", "W"), ("NP", ""), ("PP", "W", 0)),
 
 	# CP adjunct
 	(("NP", ""), ("NP", ""), ("CP", "a")),
@@ -73,14 +77,20 @@ rules = [
 	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
 	(("PP", ""), ("P", "d"), ("DP", "P")),
 	(("PP", ""), ("P", "d"), ("DP", "S")),
+	(("VP", "W"), ("V", "d")),
+	(("PP", "W"), ("P", "d")),
 	# NP complements
 	(("DP", ""), ("D", "n"), ("NP", "")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
+	(("VP", "W"), ("V", "c"), ("CP", "W", 0)),
 	# AP complements
 	(("VP", ""), ("V", "a"), ("AP", "", 0)),
     # PP complements
     (("VP", ""), ("V", "p"), ("PP", "", 0)),
+	# root form CP complements
+	(("VP", ""), ("V", "r"), ("CP", "F", 0)),
+	(("VP", "W"), ("V", "r"), ("CP", "FW", 0)),
 
 	# inflection rules
 	# I' parameters:
@@ -94,28 +104,50 @@ rules = [
 	(("I'", "G"), ("VP", "G")), # progressive
 	(("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(("I'", "G"), ("I", "$_"), ("VP", "N")), # passive progressive, eg being known
-	(("I'", "N"), ("I", "%_"), ("VP", "N")), # perfect nonprogressive, eg been known
-	(("I'", "N"), ("I", "%_"), ("VP", "G")), # perfect nonprogressive, eg been knowing
-	(("I'", "R"), ("I", "*_"), ("VP", "N")), # eg be known
-	(("I'", "R"), ("I", "*_"), ("VP", "G")), # eg be knowing
+	(("I'", "G"), ("I", "$_", 0), ("VP", "N")), # passive progressive, eg being known
+	(("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
+	(("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
+	(("I'", "R"), ("I", "*_", 0), ("VP", "N")), # eg be known
+	(("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
 
 	(("I'", "P"), ("VP", "P")), # active plural, eg know
 	(("I'", "S"), ("VP", "S")), # active singular, eg knows
 	(("I'", "P"), ("VP", "PT")), # past plural, eg knew
 	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
-	(("I'", "P"), ("I", "DP_"), ("VP", "R")), # active plural, eg do know
-	(("I'", "S"), ("I", "DS_"), ("VP", "R")), # active singular, eg does know;
-	(("I'", "P"), ("I", "VP_"), ("VP", "N")), # passive plural, eg are known
-	(("I'", "S"), ("I", "VS_"), ("VP", "N")), # passive singular, eg is known
+	(("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
+	(("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
+	(("I'", "P"), ("I", "VP_", 0), ("VP", "N")), # passive plural, eg are known
+	(("I'", "S"), ("I", "VS_", 0), ("VP", "N")), # passive singular, eg is known
 
-	(("I'", "S"), ("I", "VS_"), ("I'", "G")), # continuous singular, eg is knowing
-	(("I'", "P"), ("I", "VP_"), ("I'", "G")), # continuous plural, eg are knowing
+	(("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
+	(("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
 
-	(("I'", "R"), ("I", "HB_"), ("I'", "N")), # have known
+	(("I'", "R"), ("I", "HB_", 0), ("I'", "N")), # have known
 
-	(("I'", "S"), ("I", "M_"), ("I'", "R")), # modality, eg should know
-	(("I'", "P"), ("I", "M_"), ("I'", "R")), # modality, eg should know
+	(("I'", "S"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+	(("I'", "P"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+
+	# I to C movement
+	# TODO: prohibit null inflector movement (i don't know where it's coming from...)
+	(("VP", "C"), ("DP", "S", 0), ("VP", "")), # the horse know
+	(("VP", "C"), ("DP", "P", 0), ("VP", "")), # the snakes know
+	(("I'", "C"), ("DP", "S", 0), ("I'", "")), # the horse knowing
+	(("I'", "C"), ("DP", "P", 0), ("I'", "")), # the snakes knowing
+	(("IP", "C"), ("I'", "CS")), # does the horse know
+	(("IP", "C"), ("I'", "CP")), # do the snakes know
+	(("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
+
+	# how/why
+	(("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
+	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+
+	# CP with root form VP
+	(("CP", "F"), ("DP", "S", 0), ("VP", "R")), # she carry
+	(("CP", "F"), ("C", "i", 0), ("DP", "S", 0), ("VP", "R")), # that she carry
+
+	# wh movement
+	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
+	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
 
 	# verb as subject
 	(("DP", "S"), ("VP", "G")),
@@ -137,10 +169,17 @@ rules = [
 
     # personal possessive pronouns
     (("Poss", ""), ("PerPro", "0")),
+    (("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
     (("DP", ""), ("Poss", ""), ("NP", "")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "")),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0), ("Pause_,", "0", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0), ("Pause_,", "0", 0)),
+    (("IP", ""), ("SP", ""), ("Pause_,", "0", 0), ("IP", "")),
+    (("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -190,19 +229,45 @@ rules = [
 # and are only used to select complements
 # other parameters get passed up chain
 vocabulary = [
-    # Names
+    # Names - split proper nouns
 	("Arthur", "NAME", "0", "S"),
+    ("Sir Arthur", "NAME", "0", "S"),
+    ("Sir Arthur Pendragon", "NAME", "0", "S"),
+    ("Arthur Pendragon", "NAME", "0", "S"),
 	("Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere", "NAME", "0", "S"),
+    ("Sir Guinevere Pendragon", "NAME", "0", "S"),
+    ("Guinevere Pendragon", "NAME", "0", "S"),
+    ("Lancelot", "NAME", "0", "S"),
 	("Sir Lancelot", "NAME", "0", "S"),
+    ("Lancelot Pendragon", "NAME", "0", "S"),
+    ("Sir Lancelot Pendragon", "NAME", "0", "S"),
+    ("Bedevere", "NAME", "0", "S"),
 	("Sir Bedevere", "NAME", "0", "S"),
+    ("Sir Bedevere Pendragon", "NAME", "0", "S"),
+    ("Bedevere Pendragon", "NAME", "0", "S"),
 	("Zoot", "NAME", "0", "S"),
+    ("Sir Zoot", "NAME", "0", "S"),
+    ("Sir Zoot Pendragon", "NAME", "0", "S"),
+    ("Zoot Pendragon", "NAME", "0", "S"),
 	("Patsy", "NAME", "0", "S"),
+    ("Sir Patsy", "NAME", "0", "S"),
+    ("Sir Patsy Pendragon", "NAME", "0", "S"),
+    ("Patsy Pendragon", "NAME", "0", "S"),
+    ("Uther", "NAME", "0", "S"),
+    ("Sir Uther", "NAME", "0", "S"),
+    ("Sir Uther Pendragon", "NAME", "0", "S"),
 	("Uther Pendragon", "NAME", "0", "S"),
+    ("Dingo", "NAME", "0", "S"),
+    ("Sir Dingo", "NAME", "0", "S"),
+    ("Sir Dingo Pendragon", "NAME", "0", "S"),
+    ("Dingo Pendragon", "NAME", "0", "S"),
 
 	# nouns
-	("king", "N", "0", "S"),
 	("castle", "N", "0", "S"),
+	("king", "N", "0", "S"),
 	("defeater", "N", "0", "S"),
+	("sovereign", "N", "0", "S"),
 	("servant", "N", "0", "S"),
 	("corner", "N", "0", "S"),
 	("land", "N", "0", "S"),
@@ -220,7 +285,6 @@ vocabulary = [
 	("home", "N", "0", "S"),
 	("weight", "N", "0", "S"),
 	("story", "N", "0", "S"),
-	("sovereign", "N", "0", "S"),
 
     # plural nouns
     ("coconuts", "N", "0", "P"),
@@ -247,12 +311,12 @@ vocabulary = [
     # personal pronouns -- need to do more
 	# TODO: separate subject / object
     ("he", "Pn", "0", "S"),
-    #("her", "Pn", "0", "S"),
-    #("him", "Pn", "0", "S"),
+    ("her", "PerPro", "0", "S"),
+    ("him", "PerPro", "0", "S"),
     ("it", "Pn", "0", "S"),
     ("one", "Pn", "0", "S"),
     ("she", "Pn", "0", "S"),
-    #("them", "Pn", "0", "P"),
+    ("them", "PerPro", "0", "P"),
     ("they", "Pn", "0", "P"),
 
     # personal possessive pronouns
@@ -304,9 +368,9 @@ vocabulary = [
 	("this", "D", "n", "S"),
 
 	# wh words
-	("what", "Q", "0"),
-	("who", "Q", "0"),
-	("where", "Q", "0"),
+	("what", "W", ""),
+	("who", "W", ""),
+	#("where", "W", "0"),
 	#("why", "Q", "0"),
 
 	# wh determiners
@@ -322,10 +386,10 @@ vocabulary = [
 	("whose", "X", ""),
 
 	# wh adverbs
-	("how", "X", ""),
-	("when", "X", ""),
-	("where", "X", ""),
-	("why", "X", ""),
+	("how", "H", ""),
+	("why", "H", ""),
+	("when", "H", ""),
+	("where", "H", ""),
 
 	("cat", "N", "0"),
 	("dog", "N", "0"),
@@ -344,13 +408,13 @@ vocabulary = [
 
 	# pauses -- need to do more
 	(",", "Pause_,", "0", ""),
-	("...", "X", "", ""),
-	("--", "X", "", ""),
-	(";", "X", "", ""),
-	(":", "X", "", ""),
+	("...", "Pause_...", "0", ""),
+	("--", "Pause_--", "0", ""),
+	(";", "Pause_;", "0", ""),
+	(":", "Pause_:", "0", ""),
 
 	# possessive marker
-	("'s", "X", ""),
+	("'s", "PosMar", "0", ""),
 
 	# coordinating conjunctions -- need to do more
 	("and", "CC", "0", "A"),
@@ -554,13 +618,13 @@ vocabulary = [
 	("growing", "V", "0", "G"),
 	("grown", "V", "0", "N"),
 
-	("suggest", "V", "c", "R"),
-	("suggest", "V", "c", "P"),
-	("suggests", "V", "c", "S"),
-	("suggested", "V", "c", "ST"),
-	("suggested", "V", "c", "PT"),
-	("suggested", "V", "c", "N"),
-	("suggesting", "V", "c", "G"),
+	("suggest", "V", "dcr", "R"),
+	("suggest", "V", "dcr", "P"),
+	("suggests", "V", "dcr", "S"),
+	("suggested", "V", "dcr", "ST"),
+	("suggested", "V", "dcr", "PT"),
+	("suggested", "V", "dcr", "N"),
+	("suggesting", "V", "dcr", "G"),
 
 	("migrate", "V", "0p", "R"),
 	("migrate", "V", "0p", "P"),
@@ -581,7 +645,7 @@ vocabulary = [
 
 # types of complements each head can have
 selection_rules = {
-	"V": "0dcpa",
+	"V": "0dcpar",
 	"I": "_",
 	"N": "0",
 	"D": "n",
@@ -600,7 +664,7 @@ vocab_parameters = collections.defaultdict(str, {
 	"CC": "A",
 })
 
-carried_parameters = set(char for char in "m.?RSPGNTS")
+carried_parameters = set(char for char in "m.?RSPGNTSCW")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
