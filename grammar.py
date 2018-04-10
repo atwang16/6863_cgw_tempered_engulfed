@@ -34,7 +34,7 @@ rules = [
 	(1, ("IP", ""), ("DP", "PJ", 0), ("I'", "P")),  # plural
 
 	# imperative
-	(1, ("S", ""), ("I'", "P"), (".", "")),
+	(1e-5, ("S", ""), ("I'", "P"), (".", "")),
 
 	(1, ("S", ""), ("CP", "."), (".", "")),
 	#(("S", ""), ("CP", "?"), ("?", "")),
@@ -142,11 +142,11 @@ rules = [
 	(1, ("I'", "C"), ("DP", "PJ", 0), ("I'", "")), # the snakes knowing
 	(1, ("IP", "C"), ("I'", "CS")), # does the horse know
 	(1, ("IP", "C"), ("I'", "CP")), # do the snakes know
-	(1, ("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
+	(1e-5, ("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
 
 	# how/why
 	(1, ("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
-	(1, ("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+	(1e-5, ("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
 
 	# CP with root form VP
 	(1, ("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
@@ -158,18 +158,18 @@ rules = [
 
 	# wh movement
 	(1, ("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
-	(1, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
-	(1, ("DP", "SO"), ("W", ""), ("IP", "W")), # what the horse knows
-	(1, ("DP", "SJ"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1e-5, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+	(1e-5, ("DP", "SO"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1e-5, ("DP", "SJ"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
-	(.1, ("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
-	(.1, ("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
+	(1e-5, ("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
+	(1e-5, ("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
 
 	# verb as subject
-	(1, ("DP", "SO"), ("VP", "G")),
-	(1, ("DP", "SJ"), ("VP", "G")),
+	(1e-5, ("DP", "SO"), ("VP", "G")),
+	(1e-5, ("DP", "SJ"), ("VP", "G")),
 
 	# adjectives
 	(1, ("AP", ""), ("A", "_")),
@@ -196,24 +196,24 @@ rules = [
     (1, ("DP", "SJ"), ("Num", "S"), ("NP", "SJ")),
     (1, ("DP", "PO"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
     (1, ("DP", "SO"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
-    (1, ("DP", "PJ"), ("Num", "S"), ("AP", "", 0), ("NP", "PJ")),
+    (1, ("DP", "PJ"), ("Num", "P"), ("AP", "", 0), ("NP", "PJ")),
     (1, ("DP", "SJ"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
 
     # personal possessive pronouns
     (1, ("Poss", ""), ("PerPro", "0")),
-    (1, ("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
+    (1e-5, ("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
     (1, ("DP", "O"), ("Poss", ""), ("NP", "O")),
     (1, ("DP", "J"), ("Poss", ""), ("NP", "J")),
 
     # pause
-    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
-    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
-    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
-    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
-    (.1, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
-	(.1, ("IP", ""), ("IP", ""), ("Pause_,", "0", 0), ("SentC", "", 0), ("IP", "")),
-    (.1, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
-    (.1, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
+    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
+    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
+    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
+    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
+    (1e-5, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
+	(1e-5, ("IP", ""), ("IP", ""), ("Pause_,", "0", 0), ("SentC", "", 0), ("IP", "")),
+    (1e-5, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (1e-5, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
