@@ -30,8 +30,8 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "SJ"), ("I'", "S")),  # singular
-	(("IP", ""), ("DP", "PJ"), ("I'", "P")),  # plural
+	(("IP", ""), ("DP", "SJ", 0), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "PJ", 0), ("I'", "P")),  # plural
 
 	# imperative
 	(("S", ""), ("I'", "P"), (".", "")),
@@ -86,11 +86,13 @@ rules = [
 	(("DP", "PJ"), ("D", "nP"), ("NP", "PJ")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
+	(("VP", "I"), ("V", "Ic"), ("CP", "", 0)),
 	(("VP", "W"), ("V", "c"), ("CP", "W", 0)),
     # AP complements
     (("VP", ""), ("V", "a"), ("AP", "", 0)),
     # PP complements
     (("VP", ""), ("V", "p"), ("PP", "", 0)),
+	(("VP", "I"), ("V", "Ip"), ("PP", "", 0)),
 	# root form CP complements
 	(("VP", ""), ("V", "r"), ("CP", "F", 0)),
 	(("VP", "W"), ("V", "r"), ("CP", "FW", 0)),
@@ -119,8 +121,10 @@ rules = [
 	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
 	(("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
 	(("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
-	(("I'", "P"), ("I", "VP_", 0), ("VP", "N")), # passive plural, eg are known
-	(("I'", "S"), ("I", "VS_", 0), ("VP", "N")), # passive singular, eg is known
+	(("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
+	(("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
+
+	(("VP", "I"), ("V", "0I")),
 
 	(("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
 	(("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
@@ -146,11 +150,16 @@ rules = [
 
 	# CP with root form VP
 	(("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
+	(("CP", "F"), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # she be carried (passive sing.)
+	(("CP", "F"), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # she be carried (passive plural)
 	(("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("VP", "R")), # that she carry
+	(("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # that she be carried (passive sing.)
+	(("CP", "F"), ("C", "i", 0), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # that she be carried (passive plural)
 
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
 	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+	(("DP", "S"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
@@ -246,6 +255,7 @@ rules = [
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
 	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
+	# subordinate phrases
 	(("VP", ""), ("VP", ""), ("SP", "v", 0)),
 	(("DP", ""), ("DP", ""), ("SP", "n", 0)),
 	(("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
@@ -421,6 +431,11 @@ vocabulary = [
     ("them", "Pn", "0", "PO"),
     ("they", "Pn", "0", "PJ"),
 
+	("his", "Pn", "0", "S"),
+	("his", "Pn", "0", "P"),
+	("his", "PerPro", "0", "S"),
+	("his", "PerPro", "0", "P"),
+
     # personal possessive pronouns
     ("her", "PerPro", "0", "S"),
     ("his", "PerPro", "0", "S"),
@@ -492,16 +507,6 @@ vocabulary = [
 	("why", "H", ""),
 	("when", "H", ""),
 	("where", "H", ""),
-
-	("cat", "N", "0"),
-	("dog", "N", "0"),
-	("bunny", "N", "0"),
-	#("run", "V", "0"),
-	#("eat", "V", "0d"),
-	#("give", "V", "0"), # will handle indirect objects later
-	#("does", "I", "v"),
-	#("did", "I", "v"),
-	#("will", "I", "v"),
 
     # end of sentence
 	(".", ".", "0"),
@@ -655,7 +660,8 @@ vocabulary = [
 	("know", "V", "0dc", "P"),
 	("know", "V", "0dc", "R"),
 	("knowing", "V", "0dc", "G"),
-	("known", "V", "0dc", "N"),    # TODO: deal with passive voice later
+	("known", "V", "0c", "I"),
+	("known", "V", "0dc", "N"),
 	("knows", "V", "0dc", "S"),
 
 	("is", "V", "dpa", "S"),
@@ -669,6 +675,7 @@ vocabulary = [
 	("has", "V", "d", "S"),
 	("had", "V", "d", "PT"),
 	("had", "V", "d", "ST"),
+	("had", "V", "0", "I"),
 	("had", "V", "d", "N"),
 	("have", "V", "d", "R"),
 	("have", "V", "d", "P"),
@@ -679,6 +686,7 @@ vocabulary = [
 	("covers", "V", "dp", "S"),
 	("covered", "V", "dp", "ST"),
 	("covered", "V", "dp", "PT"),
+	("covered", "V", "0p", "I"),
 	("covered", "V", "dp", "N"),
 	("covering", "V", "dp", "G"),
 
@@ -688,6 +696,7 @@ vocabulary = [
 	("drank", "V", "0dp", "ST"),
 	("drank", "V", "0dp", "PT"),
 	("drinking", "V", "0dp", "G"),
+	("drunk", "V", "0p", "I"),
 	("drunk", "V", "0dp", "N"),
 
 	("carry", "V", "dp", "R"),
@@ -695,6 +704,7 @@ vocabulary = [
 	("carries", "V", "dp", "S"),
 	("carried", "V", "dp", "ST"),
 	("carried", "V", "dp", "PT"),
+	("carried", "V", "0p", "I"),
 	("carried", "V", "dp", "N"),
 	("carrying", "V", "dp", "G"),
 
@@ -704,6 +714,7 @@ vocabulary = [
 	("rode", "V", "0dp", "ST"),
 	("rode", "V", "0dp", "PT"),
 	("riding", "V", "0dp", "G"),
+	("ridden", "V", "0p", "I"),
 	("ridden", "V", "0dp", "N"),
 
 	("speak", "V", "0dp", "R"),
@@ -712,21 +723,24 @@ vocabulary = [
 	("spoke", "V", "0dp", "ST"),
 	("spoke", "V", "0dp", "PT"),
 	("speaking", "V", "0dp", "G"),
+	("spoken", "V", "0p", "I"),
 	("spoken", "V", "0dp", "N"),
 
-	("grow", "V", "0d", "R"),
-	("grow", "V", "0d", "P"),
-	("grows", "V", "0d", "S"),
-	("grew", "V", "0d", "ST"),
-	("grew", "V", "0d", "PT"),
-	("growing", "V", "0d", "G"),
-	("grown", "V", "0d", "N"),
+	("grow", "V", "0dp", "R"),
+	("grow", "V", "0dp", "P"),
+	("grows", "V", "0dp", "S"),
+	("grew", "V", "0dp", "ST"),
+	("grew", "V", "0dp", "PT"),
+	("growing", "V", "0dp", "G"),
+	("grown", "V", "0p", "I"),
+	("grown", "V", "0dp", "N"),
 
 	("suggest", "V", "dcr", "R"),
 	("suggest", "V", "dcr", "P"),
 	("suggests", "V", "dcr", "S"),
 	("suggested", "V", "dcr", "ST"),
 	("suggested", "V", "dcr", "PT"),
+	("suggested", "V", "0cr", "I"),
 	("suggested", "V", "dcr", "N"),
 	("suggesting", "V", "dcr", "G"),
 
@@ -762,7 +776,7 @@ selection_rules = {
 }
 
 vocab_parameters = collections.defaultdict(str, {
-	"V": "RSPGNT",
+	"V": "RSPGNTI",
 	"I": "DPSV*%$HTM",
 	"N": "SPOJ",
 	"D": "SPOJ",
