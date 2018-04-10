@@ -264,6 +264,14 @@ rules = [
 	(.1, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
 	(.1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
 	(.1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
+
+	# wh subjects
+	(1e-5, ("WP", ""), ("W", ""), ("I'", "S")),
+	(1e-5, ("WP", ""), ("W", ""), ("I'", "P")),
+	(1e-5, ("WP", ""), ("WHPOS", "", 0), ("NP", "SO"), ("I'", "S")),
+	(1e-5, ("WP", ""), ("WHPOS", "", 0), ("NP", "SJ"), ("I'", "S")),
+	(1e-5, ("WP", ""), ("WHPOS", "", 0), ("NP", "PO"), ("I'", "P")),
+	(1e-5, ("WP", ""), ("WHPOS", "", 0), ("NP", "PJ"), ("I'", "P")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -490,6 +498,7 @@ vocabulary = [
 	# wh words
 	("what", "W", ""),
 	("who", "W", ""),
+	("whose", "W", ""),
 	#("where", "W", "0"),
 	#("why", "Q", "0"),
 
@@ -503,7 +512,7 @@ vocabulary = [
 	("who", "X", ""),
 
 	# wh possessive pronouns
-	("whose", "X", ""),
+	("whose", "WHPOS", ""),
 
 	# wh adverbs
 	("how", "H", ""),
