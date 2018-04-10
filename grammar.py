@@ -109,7 +109,7 @@ rules = [
 	(1, ("I'", "G"), ("VP", "G")), # progressive
 	(1, ("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(1, ("I'", "G"), ("I", "$_", 0), ("VP", "I")), # passive progressive, eg being known
+	(1e-5, ("I'", "G"), ("I", "$_", 0), ("VP", "I")), # passive progressive, eg being known
 	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
 	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
 	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "I")), # eg be known
@@ -121,8 +121,8 @@ rules = [
 	(1, ("I'", "S"), ("VP", "ST")), # past singular, eg knew
 	(1, ("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
 	(1, ("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
-	(1, ("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
-	(1, ("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
+	(1e-5, ("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
+	(1e-5, ("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
 
 	(1, ("VP", "I"), ("V", "0I")),
 
@@ -258,12 +258,12 @@ rules = [
 	(.1, ("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
 	# subordinate phrases
-	(.1, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
-	(.1, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
-	(.1, ("DP", "J"), ("DP", "J"), ("SC", "d", 0), ("I'", "")),
-	(.1, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
-	(.1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
-	(.1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
+	(1e-5, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
+	(1e-5, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
+	(1e-5, ("DP", "J"), ("DP", "J"), ("SC", "d", 0), ("I'", "")),
+	(1e-5, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
+	(1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
+	(1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
 
 	# wh subjects
 	(1e-5, ("WP", ""), ("W", ""), ("I'", "S")),
@@ -657,7 +657,8 @@ vocabulary = [
 	("would", "I", "_", "M"),
 	("could", "I", "_", "M"),
 	("will", "I", "_", "M"),
-	("ought", "I", "_", "M"),
+	("ought not to", "I", "_", "M"),
+	("ought to", "I", "_", "M"),
 
 	# VERBS
 	# R: root
