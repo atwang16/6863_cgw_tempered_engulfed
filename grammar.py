@@ -499,13 +499,7 @@ vocabulary = [
 	("what", "W", ""),
 	("who", "W", ""),
 	("whose", "W", ""),
-	#("where", "W", "0"),
-	#("why", "Q", "0"),
-
-	# wh determiners
-	("that", "X", ""),
-	("what", "X", ""),
-	("which", "X", ""),
+	("where", "W", ""),
 
 	# wh-determiners
 	("what", "WHDET", ""),
