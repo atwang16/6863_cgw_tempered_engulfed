@@ -694,7 +694,7 @@ vocabulary = [
 	("know", "V", "0dc", "P"),
 	("know", "V", "0dc", "R"),
 	("knowing", "V", "0dc", "G"),
-	("known", "V", "0c", "I"),
+	("known", "V", "0", "I"),
 	("known", "V", "0dc", "N"),
 	("knows", "V", "0dc", "S"),
 
@@ -774,7 +774,7 @@ vocabulary = [
 	("suggests", "V", "dcr", "S"),
 	("suggested", "V", "dcr", "ST"),
 	("suggested", "V", "dcr", "PT"),
-	("suggested", "V", "0cr", "I"),
+	("suggested", "V", "0", "I"),
 	("suggested", "V", "dcr", "N"),
 	("suggesting", "V", "dcr", "G"),
 
