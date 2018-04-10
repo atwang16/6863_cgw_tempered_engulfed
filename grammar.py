@@ -159,7 +159,8 @@ rules = [
 	# wh movement
 	(1, ("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
 	(1, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
-	(1, ("DP", "S"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1, ("DP", "SO"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1, ("DP", "SJ"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
@@ -258,7 +259,8 @@ rules = [
 	# subordinate phrases
 	(.1, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
 	(.1, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
-	(.1, ("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
+	(.1, ("DP", "J"), ("DP", "J"), ("SC", "d", 0), ("I'", "")),
+	(.1, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
 	(.1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
 	(.1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
 ]
