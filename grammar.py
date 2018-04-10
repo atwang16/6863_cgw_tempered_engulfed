@@ -34,7 +34,7 @@ rules = [
 	(1, ("IP", ""), ("DP", "PJ", 0), ("I'", "P")),  # plural
 
 	# imperative
-	(1e-5, ("S", ""), ("I'", "P"), (".", "")),
+	(1e-3, ("S", ""), ("I'", "P"), (".", "")),
 
 	(1, ("S", ""), ("CP", "."), (".", "")),
 	#(("S", ""), ("CP", "?"), ("?", "")),
@@ -111,10 +111,10 @@ rules = [
 	(1, ("I'", "G"), ("VP", "G")), # progressive
 	(1, ("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(1e-5, ("I'", "G"), ("I", "$_", 0), ("VP", "I")), # passive progressive, eg being known
-	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
+	(1e-3, ("I'", "G"), ("I", "$_", 0), ("VP", "I")), # passive progressive, eg being known
+	(1e-3, ("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
 	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
-	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "I")), # eg be known
+	(1e-3, ("I'", "R"), ("I", "*_", 0), ("VP", "I")), # eg be known
 	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
 
 	(1, ("I'", "P"), ("VP", "P")), # active plural, eg know
@@ -123,8 +123,8 @@ rules = [
 	(1, ("I'", "S"), ("VP", "ST")), # past singular, eg knew
 	(1, ("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
 	(1, ("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
-	(1e-5, ("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
-	(1e-5, ("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
+	(1e-3, ("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
+	(1e-3, ("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
 
 	(1, ("VP", "I"), ("V", "0I")),
 
@@ -144,11 +144,11 @@ rules = [
 	(1, ("I'", "C"), ("DP", "PJ", 0), ("I'", "")), # the snakes knowing
 	(1, ("IP", "C"), ("I'", "CS")), # does the horse know
 	(1, ("IP", "C"), ("I'", "CP")), # do the snakes know
-	(1e-5, ("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
+	(1e-3, ("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
 
 	# how/why
 	(1, ("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
-	(1e-5, ("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+	(1e-3, ("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
 
 	# CP with root form VP
 	(1, ("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
@@ -160,18 +160,18 @@ rules = [
 
 	# wh movement
 	(1, ("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
-	(1e-5, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
-	(1e-5, ("DP", "SO"), ("W", ""), ("IP", "W")), # what the horse knows
-	(1e-5, ("DP", "SJ"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1e-3, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+	(1e-3, ("DP", "SO"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1e-3, ("DP", "SJ"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
-	(1e-5, ("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
-	(1e-5, ("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
+	(1e-3, ("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
+	(1e-3, ("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
 
 	# verb as subject
-	(1e-5, ("DP", "SO"), ("VP", "G")),
-	(1e-5, ("DP", "SJ"), ("VP", "G")),
+	(1e-3, ("DP", "SO"), ("VP", "G")),
+	(1e-3, ("DP", "SJ"), ("VP", "G")),
 
 	# adjectives
 	(1, ("AP", ""), ("A", "_")),
@@ -203,19 +203,19 @@ rules = [
 
     # personal possessive pronouns
     (1, ("Poss", ""), ("PerPro", "0")),
-    (1e-5, ("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
+    (1e-3, ("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
     (1, ("DP", "O"), ("Poss", ""), ("NP", "O")),
     (1, ("DP", "J"), ("Poss", ""), ("NP", "J")),
 
     # pause
-    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
-    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
-    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
-    (1e-5, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
-    (1e-5, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
-	(1e-5, ("IP", ""), ("IP", ""), ("Pause_,", "0", 0), ("SentC", "", 0), ("IP", "")),
-    (1e-5, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
-    (1e-5, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
+    (1e-3, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
+    (1e-3, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
+    (1e-3, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
+    (1e-3, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
+    (1e-3, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
+	(1e-3, ("IP", ""), ("IP", ""), ("Pause_,", "0", 0), ("SentC", "", 0), ("IP", "")),
+    (1e-3, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (1e-3, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
 	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
@@ -260,10 +260,10 @@ rules = [
 	(.1, ("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
 	# subordinate phrases
-	(1e-5, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
-	(1e-5, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
-	(1e-5, ("DP", "J"), ("DP", "J"), ("SC", "d", 0), ("I'", "")),
-	(1e-5, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
+	(1e-3, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
+	(1e-3, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
+	(1e-3, ("DP", "J"), ("DP", "J"), ("SC", "d", 0), ("I'", "")),
+	(1e-3, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
 	(1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
 	(1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
 
@@ -392,6 +392,10 @@ vocabulary = [
 	("weight", "N", "0", "SJ"),
 	("story", "N", "0", "SO"),
 	("story", "N", "0", "SJ"),
+	("drink", "N", "0", "SO"),
+	("drink", "N", "0", "SJ"),
+	("can", "N", "0", "SO"),
+	("can", "N", "0", "SJ"),
 
     # plural nouns
     ("coconuts", "N", "0", "PO"),
@@ -501,13 +505,7 @@ vocabulary = [
 	("what", "W", ""),
 	("who", "W", ""),
 	("whose", "W", ""),
-	#("where", "W", "0"),
-	#("why", "Q", "0"),
-
-	# wh determiners
-	("that", "X", ""),
-	("what", "X", ""),
-	("which", "X", ""),
+	("where", "W", ""),
 
 	# wh-determiners
 	("what", "WHDET", ""),
@@ -690,6 +688,7 @@ vocabulary = [
 	#   c: can be transitive and selects for CP
 	#   p: can be transitive and selects for PP
 	#   a: can be transitive and selects for AP
+	#   r: can be transitive and selects for CP starting with "that" (?)
 	("knew", "V", "0dc", "PT"),
 	("knew", "V", "0dc", "ST"),
 	("know", "V", "0dc", "P"),
@@ -794,6 +793,10 @@ vocabulary = [
 	("goes", "V", "0p", "S"),
 	("ate", "V", "0dp", "ST"),
 	("ate", "V", "0dp", "PT"),
+	("swallow", "V", "0dp", "P"),
+	("swallow", "V", "0dp", "R"),
+	("pound", "V", "0dp", "P"),
+	("pound", "V", "0dp", "R"),
 ]
 
 # types of complements each head can have
