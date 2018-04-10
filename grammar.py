@@ -393,6 +393,10 @@ vocabulary = [
 	("weight", "N", "0", "SJ"),
 	("story", "N", "0", "SO"),
 	("story", "N", "0", "SJ"),
+	("drink", "N", "0", "SO"),
+	("drink", "N", "0", "SJ"),
+	("can", "N", "0", "SO"),
+	("can", "N", "0", "SJ"),
 
     # plural nouns
     ("coconuts", "N", "0", "PO"),
@@ -685,6 +689,7 @@ vocabulary = [
 	#   c: can be transitive and selects for CP
 	#   p: can be transitive and selects for PP
 	#   a: can be transitive and selects for AP
+	#   r: can be transitive and selects for CP starting with "that" (?)
 	("knew", "V", "0dc", "PT"),
 	("knew", "V", "0dc", "ST"),
 	("know", "V", "0dc", "P"),
@@ -789,6 +794,10 @@ vocabulary = [
 	("goes", "V", "0p", "S"),
 	("ate", "V", "0dp", "ST"),
 	("ate", "V", "0dp", "PT"),
+	("swallow", "V", "0dp", "P"),
+	("swallow", "V", "0dp", "R"),
+	("pound", "V", "0dp", "P"),
+	("pound", "V", "0dp", "R"),
 ]
 
 # types of complements each head can have
