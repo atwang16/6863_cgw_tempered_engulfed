@@ -52,7 +52,8 @@ rules = [
 	(1, ("DP", ""), ("NAME", "0")),
     (1, ("DP", ""), ("Pn", "0")),
 	(1, ("DP", "P"), ("NP", "P")),
-
+    (1, ("DP", ""), ("Nsa", "0")),
+    
 	# PP adjuncts
 	(.1, ("VP", ""), ("VP", ""), ("PP", "", 0)),
 	(.1, ("NP", ""), ("NP", ""), ("PP", "", 0)),
@@ -176,8 +177,6 @@ rules = [
 	(1, ("AP", ""), ("A", "_")),
 	(1, ("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
 	(1, ("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
-    (1, ("DP", "O"), ("D", "n"), ("NsaP", "O")),
-    (1, ("DP", "J"), ("D", "n"), ("NsaP", "J")),
 
 	# adverbs
 	(1, ("AdvP", ""), ("Adv", "0")),
@@ -399,6 +398,10 @@ vocabulary = [
 	("weight", "N", "0", "SJ"),
 	("story", "N", "0", "SO"),
 	("story", "N", "0", "SJ"),
+	("drink", "N", "0", "SO"),
+	("drink", "N", "0", "SJ"),
+	("can", "N", "0", "SO"),
+	("can", "N", "0", "SJ"),
 
     # plural nouns
     ("coconuts", "N", "0", "PO"),
@@ -606,21 +609,21 @@ vocabulary = [
 	("tiniest", "A", "_", ""),
 	("hardest", "A", "_", ""),
 	
-	("bloodiest", "Nsa", "0", "SO"),
-	("weariest", "Nsa", "0", "SO"),
-	("trustiest", "Nsa", "0", "SO"),
-	("hottest", "Nsa", "0", "SO"),
-	("simplest", "Nsa", "0", "SO"),
-	("tiniest", "Nsa", "0", "SO"),
-	("hardest", "Nsa", "0", "SO"),
+	("the bloodiest", "Nsa", "0", "SO"),
+	("the weariest", "Nsa", "0", "SO"),
+	("the trustiest", "Nsa", "0", "SO"),
+	("the hottest", "Nsa", "0", "SO"),
+	("the simplest", "Nsa", "0", "SO"),
+	("the tiniest", "Nsa", "0", "SO"),
+	("the hardest", "Nsa", "0", "SO"),
 
-	("bloodiest", "Nsa", "0", "SJ"),
-	("weariest", "Nsa", "0", "SJ"),
-	("trustiest", "Nsa", "0", "SJ"),
-	("hottest", "Nsa", "0", "SJ"),
-	("simplest", "Nsa", "0", "SJ"),
-	("tiniest", "Nsa", "0", "SJ"),
-	("hardest", "Nsa", "0", "SJ"),
+	("the bloodiest", "Nsa", "0", "SJ"),
+	("the weariest", "Nsa", "0", "SJ"),
+	("the trustiest", "Nsa", "0", "SJ"),
+	("the hottest", "Nsa", "0", "SJ"),
+	("the simplest", "Nsa", "0", "SJ"),
+	("the tiniest", "Nsa", "0", "SJ"),
+	("the hardest", "Nsa", "0", "SJ"),
 
 # numbers -- need to do more
 	("eight", "Num", "", "P"),
@@ -691,6 +694,7 @@ vocabulary = [
 	#   c: can be transitive and selects for CP
 	#   p: can be transitive and selects for PP
 	#   a: can be transitive and selects for AP
+	#   r: can be transitive and selects for CP starting with "that" (?)
 	("knew", "V", "0dc", "PT"),
 	("knew", "V", "0dc", "ST"),
 	("know", "V", "0dc", "P"),
@@ -795,6 +799,11 @@ vocabulary = [
 	("goes", "V", "0p", "S"),
 	("ate", "V", "0dp", "ST"),
 	("ate", "V", "0dp", "PT"),
+
+	("swallow", "V", "0dp", "P"),
+	("swallow", "V", "0dp", "R"),
+	("pound", "V", "0dp", "P"),
+	("pound", "V", "0dp", "R"),
 
 
 	# extras
