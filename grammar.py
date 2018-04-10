@@ -67,6 +67,7 @@ rules = [
 	# head complements
 	# no complements
 	(1, ("NP", ""), ("N", "0")),
+    (1, ("NsaP", ""), ("Nsa", "0")),
 	(1, ("VP", ""), ("V", "0")),
 	(1, (".", ""), (".", "0")),
 	(1, ("?", ""), ("?", "0")),
@@ -175,6 +176,8 @@ rules = [
 	(1, ("AP", ""), ("A", "_")),
 	(1, ("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
 	(1, ("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
+    (1, ("DP", "O"), ("D", "n"), ("NsaP", "O")),
+    (1, ("DP", "J"), ("D", "n"), ("NsaP", "J")),
 
 	# adverbs
 	(1, ("AdvP", ""), ("Adv", "0")),
@@ -264,6 +267,14 @@ rules = [
 	(1e-3, ("DP", "O"), ("DP", "O"), ("SC", "d", 0), ("I'", "")),
 	(1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
 	(1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
+
+	# wh subjects
+	(1e-5, ("WP", ""), ("W", ""), ("I'", "S")),
+	(1e-5, ("WP", ""), ("W", ""), ("I'", "P")),
+	(1e-5, ("WP", ""), ("WHDET", "", 0), ("NP", "SO"), ("I'", "S")),
+	(1e-5, ("WP", ""), ("WHDET", "", 0), ("NP", "SJ"), ("I'", "S")),
+	(1e-5, ("WP", ""), ("WHDET", "", 0), ("NP", "PO"), ("I'", "P")),
+	(1e-5, ("WP", ""), ("WHDET", "", 0), ("NP", "PJ"), ("I'", "P")),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -490,20 +501,13 @@ vocabulary = [
 	# wh words
 	("what", "W", ""),
 	("who", "W", ""),
-	#("where", "W", "0"),
-	#("why", "Q", "0"),
+	("whose", "W", ""),
+	("where", "W", ""),
 
-	# wh determiners
-	("that", "X", ""),
-	("what", "X", ""),
-	("which", "X", ""),
-
-	# wh pronouns
-	("what", "X", ""),
-	("who", "X", ""),
-
-	# wh possessive pronouns
-	("whose", "X", ""),
+	# wh-determiners
+	("what", "WHDET", ""),
+	("which", "WHDET", ""),
+	("whose", "WHDET", ""),
 
 	# wh adverbs
 	("how", "H", ""),
@@ -595,8 +599,24 @@ vocabulary = [
 	("simplest", "A", "_", ""),
 	("tiniest", "A", "_", ""),
 	("hardest", "A", "_", ""),
+	
+	("bloodiest", "Nsa", "0", "SO"),
+	("weariest", "Nsa", "0", "SO"),
+	("trustiest", "Nsa", "0", "SO"),
+	("hottest", "Nsa", "0", "SO"),
+	("simplest", "Nsa", "0", "SO"),
+	("tiniest", "Nsa", "0", "SO"),
+	("hardest", "Nsa", "0", "SO"),
 
-	# numbers -- need to do more
+	("bloodiest", "Nsa", "0", "SJ"),
+	("weariest", "Nsa", "0", "SJ"),
+	("trustiest", "Nsa", "0", "SJ"),
+	("hottest", "Nsa", "0", "SJ"),
+	("simplest", "Nsa", "0", "SJ"),
+	("tiniest", "Nsa", "0", "SJ"),
+	("hardest", "Nsa", "0", "SJ"),
+
+# numbers -- need to do more
 	("eight", "Num", "", "P"),
 	("five", "Num", "", "P"),
 	("one", "Num", "", "S"),
