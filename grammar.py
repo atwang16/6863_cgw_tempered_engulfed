@@ -30,8 +30,8 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "S"), ("I'", "S")),  # singular
-	(("IP", ""), ("DP", "P"), ("I'", "P")),  # plural
+	(("IP", ""), ("DP", "SJ"), ("I'", "S")),  # singular
+	(("IP", ""), ("DP", "PJ"), ("I'", "P")),  # plural
 
 	# imperative
 	(("S", ""), ("I'", "P"), (".", "")),
@@ -50,7 +50,7 @@ rules = [
 
 	# null determiner
 	(("DP", ""), ("NAME", "0")),
-	(("DP", ""), ("Pn", "0")),
+    (("DP", ""), ("Pn", "0")),
 	(("DP", "P"), ("NP", "P")),
 
 	# PP adjuncts
@@ -73,19 +73,22 @@ rules = [
 	# VP complements
 	#(("I'", ""), ("I", "v"), ("VP", "")),
 	# DP complements
-	(("VP", ""), ("V", "d"), ("DP", "S", 0)),
-	(("VP", ""), ("V", "d"), ("DP", "P", 0)),
-	(("PP", ""), ("P", "d"), ("DP", "P")),
-	(("PP", ""), ("P", "d"), ("DP", "S")),
+	(("VP", ""), ("V", "d"), ("DP", "SO", 0)),
+	(("VP", ""), ("V", "d"), ("DP", "PO", 0)),
+	(("PP", ""), ("P", "d"), ("DP", "PO")),
+	(("PP", ""), ("P", "d"), ("DP", "SO")),
 	(("VP", "W"), ("V", "d")),
 	(("PP", "W"), ("P", "d")),
 	# NP complements
-	(("DP", ""), ("D", "n"), ("NP", "")),
+	(("DP", "SO"), ("D", "Sn"), ("NP", "SO")),
+	(("DP", "SJ"), ("D", "Sn"), ("NP", "SJ")),
+	(("DP", "PO"), ("D", "nP"), ("NP", "PO")),
+	(("DP", "PJ"), ("D", "nP"), ("NP", "PJ")),
 	# CP complements
 	(("VP", ""), ("V", "c"), ("CP", "", 0)),
 	(("VP", "W"), ("V", "c"), ("CP", "W", 0)),
-	# AP complements
-	(("VP", ""), ("V", "a"), ("AP", "", 0)),
+    # AP complements
+    (("VP", ""), ("V", "a"), ("AP", "", 0)),
     # PP complements
     (("VP", ""), ("V", "p"), ("PP", "", 0)),
 	# root form CP complements
@@ -129,10 +132,10 @@ rules = [
 
 	# I to C movement
 	# TODO: prohibit null inflector movement (i don't know where it's coming from...)
-	(("VP", "C"), ("DP", "S", 0), ("VP", "")), # the horse know
-	(("VP", "C"), ("DP", "P", 0), ("VP", "")), # the snakes know
-	(("I'", "C"), ("DP", "S", 0), ("I'", "")), # the horse knowing
-	(("I'", "C"), ("DP", "P", 0), ("I'", "")), # the snakes knowing
+	(("VP", "C"), ("DP", "SJ", 0), ("VP", "")), # the horse know
+	(("VP", "C"), ("DP", "PJ", 0), ("VP", "")), # the snakes know
+	(("I'", "C"), ("DP", "SJ", 0), ("I'", "")), # the horse knowing
+	(("I'", "C"), ("DP", "PJ", 0), ("I'", "")), # the snakes knowing
 	(("IP", "C"), ("I'", "CS")), # does the horse know
 	(("IP", "C"), ("I'", "CP")), # do the snakes know
 	(("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
@@ -142,8 +145,8 @@ rules = [
 	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
 
 	# CP with root form VP
-	(("CP", "F"), ("DP", "S", 0), ("VP", "R")), # she carry
-	(("CP", "F"), ("C", "i", 0), ("DP", "S", 0), ("VP", "R")), # that she carry
+	(("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
+	(("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("VP", "R")), # that she carry
 
 	# wh movement
 	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
@@ -155,11 +158,13 @@ rules = [
 	(("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
 
 	# verb as subject
-	(("DP", "S"), ("VP", "G")),
+	(("DP", "SO"), ("VP", "G")),
+	(("DP", "SJ"), ("VP", "G")),
 
 	# adjectives
 	(("AP", ""), ("A", "_")),
-	(("DP", ""), ("D", "n"), ("AP", "", 0), ("NP", "")),
+	(("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
+	(("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
 
 	# adverbs
 	(("AdvP", ""), ("Adv", "0")),
@@ -167,21 +172,34 @@ rules = [
     (("VP", ""), ("AdvP", "", 0), ("VP", "")),
 
     # numbers
-    (("DP", ""), ("D", "n"), ("Num", ""), ("AP", "", 0), ("NP", "")),
-    (("DP", ""), ("D", "n"), ("Num", ""), ("NP", "")),
-    (("DP", ""), ("Num", ""), ("NP", "")),
-    (("DP", ""), ("Num", ""), ("AP", "", 0), ("NP", "")),
+    (("DP", "PO"), ("D", "Pn"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
+    (("DP", "SO"), ("D", "Sn"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
+    (("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("AP", "", 0), ("NP", "PJ")),
+    (("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
+    (("DP", "PO"), ("D", "nP"), ("Num", "P"), ("NP", "PO")),
+    (("DP", "SO"), ("D", "nS"), ("Num", "S"), ("NP", "SO")),
+    (("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("NP", "PJ")),
+    (("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("NP", "SJ")),
+    (("DP", "PO"), ("Num", "P"), ("NP", "PO")),
+    (("DP", "SO"), ("Num", "S"), ("NP", "SO")),
+    (("DP", "PJ"), ("Num", "P"), ("NP", "PJ")),
+    (("DP", "SJ"), ("Num", "S"), ("NP", "SJ")),
+    (("DP", "PO"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
+    (("DP", "SO"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
+    (("DP", "PJ"), ("Num", "S"), ("AP", "", 0), ("NP", "PJ")),
+    (("DP", "SJ"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
 
     # personal possessive pronouns
     (("Poss", ""), ("PerPro", "0")),
     (("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
-    (("DP", ""), ("Poss", ""), ("NP", "")),
+    (("DP", "O"), ("Poss", ""), ("NP", "O")),
+    (("DP", "J"), ("Poss", ""), ("NP", "J")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "S", 0), ("Pause_,", "0", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "P", 0), ("Pause_,", "0", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
+    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
     (("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
     (("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
     (("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
@@ -192,20 +210,28 @@ rules = [
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
 	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
 
-	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "S", 0)),
-	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "S", 0)),
-	(("DP", "P"), ("DP", "P", 0), ("CC", "0A", 0), ("DP", "P", 0)),
-	(("DP", "P"), ("DP", "S", 0), ("CC", "0A", 0), ("DP", "P", 0)),
+	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
+	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
+	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
+	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
+	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
+	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
+	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
+	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
 
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "S", 0)),
 	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "S", 0)),
 	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "P", 0)),
 	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "P", 0)),
 
-	(("DP", "S"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "S", 0)),
-	(("DP", "S"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "S", 0)),
-	(("DP", "P"), ("DP", "P", 0), ("CC", "0O", 0), ("DP", "P", 0)),
-	(("DP", "P"), ("DP", "S", 0), ("CC", "0O", 0), ("DP", "P", 0)),
+	(("DP", "SO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
+	(("DP", "SJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
+	(("DP", "SO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
+	(("DP", "SJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
+	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
+	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
+	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
+	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
 
 	(("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
 	(("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
@@ -235,94 +261,165 @@ rules = [
 # other parameters get passed up chain
 vocabulary = [
     # Names - split proper nouns
-	("Arthur", "NAME", "0", "S"),
-    ("Sir Arthur", "NAME", "0", "S"),
-    ("Sir Arthur Pendragon", "NAME", "0", "S"),
-    ("Arthur Pendragon", "NAME", "0", "S"),
-	("Guinevere", "NAME", "0", "S"),
-    ("Sir Guinevere", "NAME", "0", "S"),
-    ("Sir Guinevere Pendragon", "NAME", "0", "S"),
-    ("Guinevere Pendragon", "NAME", "0", "S"),
-    ("Lancelot", "NAME", "0", "S"),
-	("Sir Lancelot", "NAME", "0", "S"),
-    ("Lancelot Pendragon", "NAME", "0", "S"),
-    ("Sir Lancelot Pendragon", "NAME", "0", "S"),
-    ("Bedevere", "NAME", "0", "S"),
-	("Sir Bedevere", "NAME", "0", "S"),
-    ("Sir Bedevere Pendragon", "NAME", "0", "S"),
-    ("Bedevere Pendragon", "NAME", "0", "S"),
-	("Zoot", "NAME", "0", "S"),
-    ("Sir Zoot", "NAME", "0", "S"),
-    ("Sir Zoot Pendragon", "NAME", "0", "S"),
-    ("Zoot Pendragon", "NAME", "0", "S"),
-	("Patsy", "NAME", "0", "S"),
-    ("Sir Patsy", "NAME", "0", "S"),
-    ("Sir Patsy Pendragon", "NAME", "0", "S"),
-    ("Patsy Pendragon", "NAME", "0", "S"),
-    ("Uther", "NAME", "0", "S"),
-    ("Sir Uther", "NAME", "0", "S"),
-    ("Sir Uther Pendragon", "NAME", "0", "S"),
-	("Uther Pendragon", "NAME", "0", "S"),
-    ("Dingo", "NAME", "0", "S"),
-    ("Sir Dingo", "NAME", "0", "S"),
-    ("Sir Dingo Pendragon", "NAME", "0", "S"),
-    ("Dingo Pendragon", "NAME", "0", "S"),
+	("Arthur", "NAME", "0", "SO"),
+    ("Arthur", "NAME", "0", "SJ"),
+    ("Sir Arthur", "NAME", "0", "SO"),
+    ("Sir Arthur", "NAME", "0", "SJ"),
+    ("Sir Arthur Pendragon", "NAME", "0", "SO"),
+    ("Sir Arthur Pendragon", "NAME", "0", "SJ"),
+    ("Arthur Pendragon", "NAME", "0", "SO"),
+    ("Arthur Pendragon", "NAME", "0", "SJ"),
+	("Guinevere", "NAME", "0", "SO"),
+	("Guinevere", "NAME", "0", "SJ"),
+    ("Sir Guinevere", "NAME", "0", "SO"),
+    ("Sir Guinevere", "NAME", "0", "SJ"),
+    ("Sir Guinevere Pendragon", "NAME", "0", "SO"),
+    ("Sir Guinevere Pendragon", "NAME", "0", "SJ"),
+    ("Guinevere Pendragon", "NAME", "0", "SO"),
+    ("Guinevere Pendragon", "NAME", "0", "SJ"),
+    ("Lancelot", "NAME", "0", "SO"),
+    ("Lancelot", "NAME", "0", "SJ"),
+	("Sir Lancelot", "NAME", "0", "SO"),
+	("Sir Lancelot", "NAME", "0", "SJ"),
+    ("Lancelot Pendragon", "NAME", "0", "SO"),
+    ("Lancelot Pendragon", "NAME", "0", "SJ"),
+    ("Sir Lancelot Pendragon", "NAME", "0", "SO"),
+    ("Sir Lancelot Pendragon", "NAME", "0", "SJ"),
+    ("Bedevere", "NAME", "0", "SO"),
+    ("Bedevere", "NAME", "0", "SJ"),
+	("Sir Bedevere", "NAME", "0", "SO"),
+	("Sir Bedevere", "NAME", "0", "SJ"),
+    ("Sir Bedevere Pendragon", "NAME", "0", "SO"),
+    ("Sir Bedevere Pendragon", "NAME", "0", "SJ"),
+    ("Bedevere Pendragon", "NAME", "0", "SO"),
+    ("Bedevere Pendragon", "NAME", "0", "SJ"),
+	("Zoot", "NAME", "0", "SO"),
+	("Zoot", "NAME", "0", "SJ"),
+    ("Sir Zoot", "NAME", "0", "SO"),
+    ("Sir Zoot", "NAME", "0", "SJ"),
+    ("Sir Zoot Pendragon", "NAME", "0", "SO"),
+    ("Sir Zoot Pendragon", "NAME", "0", "SJ"),
+    ("Zoot Pendragon", "NAME", "0", "SO"),
+    ("Zoot Pendragon", "NAME", "0", "SJ"),
+	("Patsy", "NAME", "0", "SO"),
+	("Patsy", "NAME", "0", "SJ"),
+    ("Sir Patsy", "NAME", "0", "SO"),
+    ("Sir Patsy", "NAME", "0", "SJ"),
+    ("Sir Patsy Pendragon", "NAME", "0", "SO"),
+    ("Sir Patsy Pendragon", "NAME", "0", "SJ"),
+    ("Patsy Pendragon", "NAME", "0", "SO"),
+    ("Patsy Pendragon", "NAME", "0", "SJ"),
+    ("Uther", "NAME", "0", "SO"),
+    ("Uther", "NAME", "0", "SJ"),
+    ("Sir Uther", "NAME", "0", "SO"),
+    ("Sir Uther", "NAME", "0", "SJ"),
+    ("Sir Uther Pendragon", "NAME", "0", "SO"),
+    ("Sir Uther Pendragon", "NAME", "0", "SJ"),
+	("Uther Pendragon", "NAME", "0", "SO"),
+	("Uther Pendragon", "NAME", "0", "SJ"),
+    ("Dingo", "NAME", "0", "SO"),
+    ("Dingo", "NAME", "0", "SJ"),
+    ("Sir Dingo", "NAME", "0", "SO"),
+    ("Sir Dingo", "NAME", "0", "SJ"),
+    ("Sir Dingo Pendragon", "NAME", "0", "SO"),
+    ("Sir Dingo Pendragon", "NAME", "0", "SJ"),
+    ("Dingo Pendragon", "NAME", "0", "SO"),
+    ("Dingo Pendragon", "NAME", "0", "SJ"),
 
 	# nouns
-	("castle", "N", "0", "S"),
-	("king", "N", "0", "S"),
-	("defeater", "N", "0", "S"),
-	("sovereign", "N", "0", "S"),
-	("servant", "N", "0", "S"),
-	("corner", "N", "0", "S"),
-	("land", "N", "0", "S"),
-	("quest", "N", "0", "S"),
-	("chalice", "N", "0", "S"),
-	("master", "N", "0", "S"),
-	("horse", "N", "0", "S"),
-	("fruit", "N", "0", "S"),
-	("swallow", "N", "0", "S"),
-	("sun", "N", "0", "S"),
-	("winter", "N", "0", "S"),
-	("coconut", "N", "0", "S"),
-	("pound", "N", "0", "S"),
-	("husk", "N", "0", "S"),
-	("home", "N", "0", "S"),
-	("weight", "N", "0", "S"),
-	("story", "N", "0", "S"),
+	("castle", "N", "0", "SO"),
+	("castle", "N", "0", "SJ"),
+	("king", "N", "0", "SO"),
+	("king", "N", "0", "SJ"),
+	("defeater", "N", "0", "SO"),
+	("defeater", "N", "0", "SJ"),
+	("sovereign", "N", "0", "SO"),
+	("sovereign", "N", "0", "SJ"),
+	("servant", "N", "0", "SO"),
+	("servant", "N", "0", "SJ"),
+	("corner", "N", "0", "SO"),
+	("corner", "N", "0", "SJ"),
+	("land", "N", "0", "SO"),
+	("land", "N", "0", "SJ"),
+	("quest", "N", "0", "SO"),
+	("quest", "N", "0", "SJ"),
+	("chalice", "N", "0", "SO"),
+	("chalice", "N", "0", "SJ"),
+	("master", "N", "0", "SO"),
+	("master", "N", "0", "SJ"),
+	("horse", "N", "0", "SO"),
+	("horse", "N", "0", "SJ"),
+	("fruit", "N", "0", "SO"),
+	("fruit", "N", "0", "SJ"),
+	("swallow", "N", "0", "SO"),
+	("swallow", "N", "0", "SJ"),
+	("sun", "N", "0", "SO"),
+	("sun", "N", "0", "SJ"),
+	("winter", "N", "0", "SO"),
+	("winter", "N", "0", "SJ"),
+	("coconut", "N", "0", "SO"),
+	("coconut", "N", "0", "SJ"),
+	("pound", "N", "0", "SO"),
+	("pound", "N", "0", "SJ"),
+	("husk", "N", "0", "SO"),
+	("husk", "N", "0", "SJ"),
+	("home", "N", "0", "SO"),
+	("home", "N", "0", "SJ"),
+	("weight", "N", "0", "SO"),
+	("weight", "N", "0", "SJ"),
+	("story", "N", "0", "SO"),
+	("story", "N", "0", "SJ"),
 
     # plural nouns
-    ("coconuts", "N", "0", "P"),
-    ("halves", "N", "0", "P"),
-    ("snows", "N", "0", "P"),
-    ("mountains", "N", "0", "P"),
-    ("areas", "N", "0", "P"),
-    ("strangers", "N", "0", "P"),
-    ("inches", "N", "0", "P"),
-	("snakes", "N", "0", "P"),
-    ("ants", "N", "0", "P"),
-    ("nights", "N", "0", "P"),
+    ("coconuts", "N", "0", "PO"),
+    ("coconuts", "N", "0", "PJ"),
+    ("halves", "N", "0", "PO"),
+    ("halves", "N", "0", "PJ"),
+    ("snows", "N", "0", "PO"),
+    ("snows", "N", "0", "PJ"),
+    ("mountains", "N", "0", "PO"),
+    ("mountains", "N", "0", "PJ"),
+    ("areas", "N", "0", "PO"),
+    ("areas", "N", "0", "PJ"),
+    ("strangers", "N", "0", "PO"),
+    ("strangers", "N", "0", "PJ"),
+    ("inches", "N", "0", "PO"),
+    ("inches", "N", "0", "PJ"),
+	("snakes", "N", "0", "PO"),
+	("snakes", "N", "0", "PJ"),
+    ("ants", "N", "0", "PO"),
+    ("ants", "N", "0", "PJ"),
+    ("nights", "N", "0", "PO"),
+    ("nights", "N", "0", "PJ"),
 
     # proper nouns, not people -- need to do more
-    ("Camelot", "NAME", "0", "S"),
-    ("England", "NAME", "0", "S"),
-    ("the Holy Grail", "NAME", "0", "S"),
-    ("the Round Table", "NAME", "0", "S"),
+    ("Camelot", "NAME", "0", "SO"),
+    ("Camelot", "NAME", "0", "SJ"),
+    ("England", "NAME", "0", "SO"),
+    ("England", "NAME", "0", "SJ"),
+    ("the Holy Grail", "NAME", "0", "SO"),
+    ("the Holy Grail", "NAME", "0", "SJ"),
+    ("the Round Table", "NAME", "0", "SO"),
+    ("the Round Table", "NAME", "0", "SJ"),
 
     # plural proper nouns -- need to do more
-    ("Britons", "N", "0", "P"),
-    ("Saxons", "N", "0", "P"),
+    ("Britons", "N", "0", "PO"),
+    ("Britons", "N", "0", "PJ"),
+    ("Saxons", "N", "0", "PO"),
+    ("Saxons", "N", "0", "PJ"),
 
     # personal pronouns -- need to do more
 	# TODO: separate subject / object
-    ("he", "Pn", "0", "S"),
-    ("her", "PerPro", "0", "S"),
-    ("him", "PerPro", "0", "S"),
-    ("it", "Pn", "0", "S"),
-    ("one", "Pn", "0", "S"),
-    ("she", "Pn", "0", "S"),
-    ("them", "PerPro", "0", "P"),
-    ("they", "Pn", "0", "P"),
+    ("he", "Pn", "0", "SJ"),
+    ("her", "Pn", "0", "SO"),
+    ("him", "Pn", "0", "SO"),
+    ("it", "Pn", "0", "SO"),
+    ("it", "Pn", "0", "SJ"),
+    ("one", "Pn", "0", "SO"),
+    ("one", "Pn", "0", "SJ"),
+    ("she", "Pn", "0", "SJ"),
+    ("them", "Pn", "0", "PO"),
+    ("they", "Pn", "0", "PJ"),
 
     # personal possessive pronouns
     ("her", "PerPro", "0", "S"),
@@ -468,22 +565,22 @@ vocabulary = [
 	("Holy", "A", "_", ""),
 
 	# comparative adjectives -- need to do more
-	("bloodier", "X", "", ""),
-	("wearier", "X", "", ""),
-	("trustier", "X", "", ""),
-	("hotter", "X", "", ""),
-	("simpler", "X", "", ""),
-	("tinier", "X", "", ""),
-	("harder", "X", "", ""),
+	("bloodier", "A", "_", ""),
+	("wearier", "A", "_", ""),
+	("trustier", "A", "_", ""),
+	("hotter", "A", "_", ""),
+	("simpler", "A", "_", ""),
+	("tinier", "A", "_", ""),
+	("harder", "A", "_", ""),
 
 	# superlative adjectives -- need to do more
-	("bloodiest", "X", "", ""),
-	("weariest", "X", "", ""),
-	("trustiest", "X", "", ""),
-	("hottest", "X", "", ""),
-	("simplest", "X", "", ""),
-	("tiniest", "X", "", ""),
-	("hardest", "X", "", ""),
+	("bloodiest", "A", "_", ""),
+	("weariest", "A", "_", ""),
+	("trustiest", "A", "_", ""),
+	("hottest", "A", "_", ""),
+	("simplest", "A", "_", ""),
+	("tiniest", "A", "_", ""),
+	("hardest", "A", "_", ""),
 
 	# numbers -- need to do more
 	("eight", "Num", "", "P"),
@@ -667,12 +764,12 @@ selection_rules = {
 vocab_parameters = collections.defaultdict(str, {
 	"V": "RSPGNT",
 	"I": "DPSV*%$HTM",
-	"N": "SP",
-	"D": "SP",
+	"N": "SPOJ",
+	"D": "SPOJ",
 	"CC": "A",
 })
 
-carried_parameters = set(char for char in "m.?RSPGNTSCW")
+carried_parameters = set(char for char in "m.?RSPGNTSCWOJ")
 
 def enumerate_parameters(parameters):
 	if len(parameters) == 0:
