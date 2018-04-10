@@ -67,6 +67,7 @@ rules = [
 	# head complements
 	# no complements
 	(1, ("NP", ""), ("N", "0")),
+    (1, ("NsaP", ""), ("Nsa", "0")),
 	(1, ("VP", ""), ("V", "0")),
 	(1, (".", ""), (".", "0")),
 	(1, ("?", ""), ("?", "0")),
@@ -175,6 +176,8 @@ rules = [
 	(1, ("AP", ""), ("A", "_")),
 	(1, ("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
 	(1, ("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
+    (1, ("DP", "O"), ("D", "n"), ("NsaP", "O")),
+    (1, ("DP", "J"), ("D", "n"), ("NsaP", "J")),
 
 	# adverbs
 	(1, ("AdvP", ""), ("Adv", "0")),
@@ -596,8 +599,24 @@ vocabulary = [
 	("simplest", "A", "_", ""),
 	("tiniest", "A", "_", ""),
 	("hardest", "A", "_", ""),
+	
+	("bloodiest", "Nsa", "0", "SO"),
+	("weariest", "Nsa", "0", "SO"),
+	("trustiest", "Nsa", "0", "SO"),
+	("hottest", "Nsa", "0", "SO"),
+	("simplest", "Nsa", "0", "SO"),
+	("tiniest", "Nsa", "0", "SO"),
+	("hardest", "Nsa", "0", "SO"),
 
-	# numbers -- need to do more
+	("bloodiest", "Nsa", "0", "SJ"),
+	("weariest", "Nsa", "0", "SJ"),
+	("trustiest", "Nsa", "0", "SJ"),
+	("hottest", "Nsa", "0", "SJ"),
+	("simplest", "Nsa", "0", "SJ"),
+	("tiniest", "Nsa", "0", "SJ"),
+	("hardest", "Nsa", "0", "SJ"),
+
+# numbers -- need to do more
 	("eight", "Num", "", "P"),
 	("five", "Num", "", "P"),
 	("one", "Num", "", "S"),
