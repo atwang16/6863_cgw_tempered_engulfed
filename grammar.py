@@ -30,72 +30,72 @@ import collections
 # IP has form DP I VP, I' has form I VP
 
 rules = [
-	(("IP", ""), ("DP", "SJ", 0), ("I'", "S")),  # singular
-	(("IP", ""), ("DP", "PJ", 0), ("I'", "P")),  # plural
+	(1, ("IP", ""), ("DP", "SJ", 0), ("I'", "S")),  # singular
+	(1, ("IP", ""), ("DP", "PJ", 0), ("I'", "P")),  # plural
 
 	# imperative
-	(("S", ""), ("I'", "P"), (".", "")),
+	(1, ("S", ""), ("I'", "P"), (".", "")),
 
-	(("S", ""), ("CP", "."), (".", "")),
+	(1, ("S", ""), ("CP", "."), (".", "")),
 	#(("S", ""), ("CP", "?"), ("?", "")),
 
-	(("CP", "."), ("IP", "")), # null complementizer (forced)
+	(1, ("CP", "."), ("IP", "")), # null complementizer (forced)
 
-	(("CP", ""), ("IP", "")), # null complementizer
-	(("CP", ""), ("C", "i"), ("IP", "")),
+	(1, ("CP", ""), ("IP", "")), # null complementizer
+	(1, ("CP", ""), ("C", "i"), ("IP", "")),
 
 	#(("CP", "?"), ("I", "v"), ("IP", "m")), # I to C movement
 	#(("IP", "m"), ("DP", ""), ("I'", "m")),
 	#(("I'", "m"), ("VP", "")), # move/missing inflector
 
 	# null determiner
-	(("DP", ""), ("NAME", "0")),
-    (("DP", ""), ("Pn", "0")),
-	(("DP", "P"), ("NP", "P")),
+	(1, ("DP", ""), ("NAME", "0")),
+    (1, ("DP", ""), ("Pn", "0")),
+	(1, ("DP", "P"), ("NP", "P")),
 
 	# PP adjuncts
-	(("VP", ""), ("VP", ""), ("PP", "", 0)),
-	(("NP", ""), ("NP", ""), ("PP", "", 0)),
-	(("VP", "W"), ("VP", ""), ("PP", "W", 0)),
-	(("NP", "W"), ("NP", ""), ("PP", "W", 0)),
+	(.1, ("VP", ""), ("VP", ""), ("PP", "", 0)),
+	(.1, ("NP", ""), ("NP", ""), ("PP", "", 0)),
+	(.1, ("VP", "W"), ("VP", ""), ("PP", "W", 0)),
+	(.1, ("NP", "W"), ("NP", ""), ("PP", "W", 0)),
 
 	# CP adjunct
-	(("NP", ""), ("NP", ""), ("CP", "a")),
-	(("CP", "a"), ("C", "i"), ("IP", "a")),
-	(("IP", "a"), ("I'", "")), # IP with no subject
+	(.1, ("NP", ""), ("NP", ""), ("CP", "a")),
+	(.1, ("CP", "a"), ("C", "i"), ("IP", "a")),
+	(.1, ("IP", "a"), ("I'", "")), # IP with no subject
 
 	# head complements
 	# no complements
-	(("NP", ""), ("N", "0")),
-	(("VP", ""), ("V", "0")),
-	((".", ""), (".", "0")),
-	(("?", ""), ("?", "0")),
+	(1, ("NP", ""), ("N", "0")),
+	(1, ("VP", ""), ("V", "0")),
+	(1, (".", ""), (".", "0")),
+	(1, ("?", ""), ("?", "0")),
 	# VP complements
 	#(("I'", ""), ("I", "v"), ("VP", "")),
 	# DP complements
-	(("VP", ""), ("V", "d"), ("DP", "SO", 0)),
-	(("VP", ""), ("V", "d"), ("DP", "PO", 0)),
-	(("PP", ""), ("P", "d"), ("DP", "PO")),
-	(("PP", ""), ("P", "d"), ("DP", "SO")),
-	(("VP", "W"), ("V", "d")),
-	(("PP", "W"), ("P", "d")),
+	(1, ("VP", ""), ("V", "d"), ("DP", "SO", 0)),
+	(1, ("VP", ""), ("V", "d"), ("DP", "PO", 0)),
+	(1, ("PP", ""), ("P", "d"), ("DP", "PO")),
+	(1, ("PP", ""), ("P", "d"), ("DP", "SO")),
+	(1, ("VP", "W"), ("V", "d")),
+	(1, ("PP", "W"), ("P", "d")),
 	# NP complements
-	(("DP", "SO"), ("D", "Sn"), ("NP", "SO")),
-	(("DP", "SJ"), ("D", "Sn"), ("NP", "SJ")),
-	(("DP", "PO"), ("D", "nP"), ("NP", "PO")),
-	(("DP", "PJ"), ("D", "nP"), ("NP", "PJ")),
+	(1, ("DP", "SO"), ("D", "Sn"), ("NP", "SO")),
+	(1, ("DP", "SJ"), ("D", "Sn"), ("NP", "SJ")),
+	(1, ("DP", "PO"), ("D", "nP"), ("NP", "PO")),
+	(1, ("DP", "PJ"), ("D", "nP"), ("NP", "PJ")),
 	# CP complements
-	(("VP", ""), ("V", "c"), ("CP", "", 0)),
-	(("VP", "I"), ("V", "Ic"), ("CP", "", 0)),
-	(("VP", "W"), ("V", "c"), ("CP", "W", 0)),
+	(1, ("VP", ""), ("V", "c"), ("CP", "", 0)),
+	(1, ("VP", "I"), ("V", "Ic"), ("CP", "", 0)),
+	(1, ("VP", "W"), ("V", "c"), ("CP", "W", 0)),
     # AP complements
-    (("VP", ""), ("V", "a"), ("AP", "", 0)),
+    (1, ("VP", ""), ("V", "a"), ("AP", "", 0)),
     # PP complements
-    (("VP", ""), ("V", "p"), ("PP", "", 0)),
-	(("VP", "I"), ("V", "Ip"), ("PP", "", 0)),
+    (1, ("VP", ""), ("V", "p"), ("PP", "", 0)),
+	(1, ("VP", "I"), ("V", "Ip"), ("PP", "", 0)),
 	# root form CP complements
-	(("VP", ""), ("V", "r"), ("CP", "F", 0)),
-	(("VP", "W"), ("V", "r"), ("CP", "FW", 0)),
+	(1, ("VP", ""), ("V", "r"), ("CP", "F", 0)),
+	(1, ("VP", "W"), ("V", "r"), ("CP", "FW", 0)),
 
 	# inflection rules
 	# I' parameters:
@@ -103,164 +103,164 @@ rules = [
 	# T: progressive aspect
 	# A: perfect aspect
 	# M: modality
-	(("VP", "P"), ("VP", "")),
+	(1, ("VP", "P"), ("VP", "")),
 
-	(("I'", "R"), ("VP", "R")), # root
-	(("I'", "G"), ("VP", "G")), # progressive
-	(("I'", "N"), ("VP", "N")), # perfect nonprogressive
+	(1, ("I'", "R"), ("VP", "R")), # root
+	(1, ("I'", "G"), ("VP", "G")), # progressive
+	(1, ("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(("I'", "G"), ("I", "$_", 0), ("VP", "N")), # passive progressive, eg being known
-	(("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
-	(("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
-	(("I'", "R"), ("I", "*_", 0), ("VP", "N")), # eg be known
-	(("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
+	(1, ("I'", "G"), ("I", "$_", 0), ("VP", "N")), # passive progressive, eg being known
+	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
+	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
+	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "N")), # eg be known
+	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
 
-	(("I'", "P"), ("VP", "P")), # active plural, eg know
-	(("I'", "S"), ("VP", "S")), # active singular, eg knows
-	(("I'", "P"), ("VP", "PT")), # past plural, eg knew
-	(("I'", "S"), ("VP", "ST")), # past singular, eg knew
-	(("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
-	(("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
-	(("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
-	(("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
+	(1, ("I'", "P"), ("VP", "P")), # active plural, eg know
+	(1, ("I'", "S"), ("VP", "S")), # active singular, eg knows
+	(1, ("I'", "P"), ("VP", "PT")), # past plural, eg knew
+	(1, ("I'", "S"), ("VP", "ST")), # past singular, eg knew
+	(1, ("I'", "P"), ("I", "DP_", 0), ("VP", "R")), # active plural, eg do know
+	(1, ("I'", "S"), ("I", "DS_", 0), ("VP", "R")), # active singular, eg does know;
+	(1, ("I'", "P"), ("I", "VP_", 0), ("VP", "I")), # passive plural, eg are known
+	(1, ("I'", "S"), ("I", "VS_", 0), ("VP", "I")), # passive singular, eg is known
 
-	(("VP", "I"), ("V", "0I")),
+	(1, ("VP", "I"), ("V", "0I")),
 
-	(("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
-	(("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
+	(1, ("I'", "S"), ("I", "VS_", 0), ("I'", "G")), # continuous singular, eg is knowing
+	(1, ("I'", "P"), ("I", "VP_", 0), ("I'", "G")), # continuous plural, eg are knowing
 
-	(("I'", "R"), ("I", "HB_", 0), ("I'", "N")), # have known
+	(1, ("I'", "R"), ("I", "HB_", 0), ("I'", "N")), # have known
 
-	(("I'", "S"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
-	(("I'", "P"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+	(1, ("I'", "S"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
+	(1, ("I'", "P"), ("I", "M_", 0), ("I'", "R")), # modality, eg should know
 
 	# I to C movement
 	# TODO: prohibit null inflector movement (i don't know where it's coming from...)
-	(("VP", "C"), ("DP", "SJ", 0), ("VP", "")), # the horse know
-	(("VP", "C"), ("DP", "PJ", 0), ("VP", "")), # the snakes know
-	(("I'", "C"), ("DP", "SJ", 0), ("I'", "")), # the horse knowing
-	(("I'", "C"), ("DP", "PJ", 0), ("I'", "")), # the snakes knowing
-	(("IP", "C"), ("I'", "CS")), # does the horse know
-	(("IP", "C"), ("I'", "CP")), # do the snakes know
-	(("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
+	(1, ("VP", "C"), ("DP", "SJ", 0), ("VP", "")), # the horse know
+	(1, ("VP", "C"), ("DP", "PJ", 0), ("VP", "")), # the snakes know
+	(1, ("I'", "C"), ("DP", "SJ", 0), ("I'", "")), # the horse knowing
+	(1, ("I'", "C"), ("DP", "PJ", 0), ("I'", "")), # the snakes knowing
+	(1, ("IP", "C"), ("I'", "CS")), # does the horse know
+	(1, ("IP", "C"), ("I'", "CP")), # do the snakes know
+	(1, ("S", ""), ("IP", "C"), ("?", "")), # does the horse know ?
 
 	# how/why
-	(("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
-	(("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
+	(1, ("HP", ""), ("H", ""), ("IP", "C")), # how does the horse know
+	(1, ("S", ""), ("HP", ""), ("?", "")), # how does the horse know ?
 
 	# CP with root form VP
-	(("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
-	(("CP", "F"), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # she be carried (passive sing.)
-	(("CP", "F"), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # she be carried (passive plural)
-	(("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("VP", "R")), # that she carry
-	(("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # that she be carried (passive sing.)
-	(("CP", "F"), ("C", "i", 0), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # that she be carried (passive plural)
+	(1, ("CP", "F"), ("DP", "SJ", 0), ("VP", "R")), # she carry
+	(1, ("CP", "F"), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # she be carried (passive sing.)
+	(1, ("CP", "F"), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # she be carried (passive plural)
+	(1, ("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("VP", "R")), # that she carry
+	(1, ("CP", "F"), ("C", "i", 0), ("DP", "SJ", 0), ("I", "*_", 0), ("VP", "I", 0)), # that she be carried (passive sing.)
+	(1, ("CP", "F"), ("C", "i", 0), ("DP", "PJ", 0), ("I", "*_", 0), ("VP", "I")), # that she be carried (passive plural)
 
 	# wh movement
-	(("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
-	(("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
-	(("DP", "S"), ("W", ""), ("IP", "W")), # what the horse knows
+	(1, ("WP", ""), ("W", ""), ("IP", "CW")), # what does the horse know
+	(1, ("S", ""), ("WP", ""), ("?", "")), # what does the horse know ?
+	(1, ("DP", "S"), ("W", ""), ("IP", "W")), # what the horse knows
 
 	# negation
 	# TODO: prohibit consecutive "not"s
-	(("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
-	(("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
+	(.1, ("VP", ""), ("Neg", "", 0), ("VP", "")), # not know
+	(.1, ("I'", ""), ("Neg", "", 0), ("I'", "")), # not know
 
 	# verb as subject
-	(("DP", "SO"), ("VP", "G")),
-	(("DP", "SJ"), ("VP", "G")),
+	(1, ("DP", "SO"), ("VP", "G")),
+	(1, ("DP", "SJ"), ("VP", "G")),
 
 	# adjectives
-	(("AP", ""), ("A", "_")),
-	(("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
-	(("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
+	(1, ("AP", ""), ("A", "_")),
+	(1, ("DP", "O"), ("D", "n"), ("AP", "", 0), ("NP", "O")),
+	(1, ("DP", "J"), ("D", "n"), ("AP", "", 0), ("NP", "J")),
 
 	# adverbs
-	(("AdvP", ""), ("Adv", "0")),
-    (("VP", ""), ("VP", ""), ("AdvP", "", 0)),
-    (("VP", ""), ("AdvP", "", 0), ("VP", "")),
+	(1, ("AdvP", ""), ("Adv", "0")),
+    (.1, ("VP", ""), ("VP", ""), ("AdvP", "", 0)),
+    (.1, ("VP", ""), ("AdvP", "", 0), ("VP", "")),
 
     # numbers
-    (("DP", "PO"), ("D", "Pn"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
-    (("DP", "SO"), ("D", "Sn"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
-    (("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("AP", "", 0), ("NP", "PJ")),
-    (("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
-    (("DP", "PO"), ("D", "nP"), ("Num", "P"), ("NP", "PO")),
-    (("DP", "SO"), ("D", "nS"), ("Num", "S"), ("NP", "SO")),
-    (("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("NP", "PJ")),
-    (("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("NP", "SJ")),
-    (("DP", "PO"), ("Num", "P"), ("NP", "PO")),
-    (("DP", "SO"), ("Num", "S"), ("NP", "SO")),
-    (("DP", "PJ"), ("Num", "P"), ("NP", "PJ")),
-    (("DP", "SJ"), ("Num", "S"), ("NP", "SJ")),
-    (("DP", "PO"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
-    (("DP", "SO"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
-    (("DP", "PJ"), ("Num", "S"), ("AP", "", 0), ("NP", "PJ")),
-    (("DP", "SJ"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
+    (1, ("DP", "PO"), ("D", "Pn"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
+    (1, ("DP", "SO"), ("D", "Sn"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
+    (1, ("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("AP", "", 0), ("NP", "PJ")),
+    (1, ("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
+    (1, ("DP", "PO"), ("D", "nP"), ("Num", "P"), ("NP", "PO")),
+    (1, ("DP", "SO"), ("D", "nS"), ("Num", "S"), ("NP", "SO")),
+    (1, ("DP", "PJ"), ("D", "nP"), ("Num", "P"), ("NP", "PJ")),
+    (1, ("DP", "SJ"), ("D", "nS"), ("Num", "S"), ("NP", "SJ")),
+    (1, ("DP", "PO"), ("Num", "P"), ("NP", "PO")),
+    (1, ("DP", "SO"), ("Num", "S"), ("NP", "SO")),
+    (1, ("DP", "PJ"), ("Num", "P"), ("NP", "PJ")),
+    (1, ("DP", "SJ"), ("Num", "S"), ("NP", "SJ")),
+    (1, ("DP", "PO"), ("Num", "P"), ("AP", "", 0), ("NP", "PO")),
+    (1, ("DP", "SO"), ("Num", "S"), ("AP", "", 0), ("NP", "SO")),
+    (1, ("DP", "PJ"), ("Num", "S"), ("AP", "", 0), ("NP", "PJ")),
+    (1, ("DP", "SJ"), ("Num", "S"), ("AP", "", 0), ("NP", "SJ")),
 
     # personal possessive pronouns
-    (("Poss", ""), ("PerPro", "0")),
-    (("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
-    (("DP", "O"), ("Poss", ""), ("NP", "O")),
-    (("DP", "J"), ("Poss", ""), ("NP", "J")),
+    (1, ("Poss", ""), ("PerPro", "0")),
+    (1, ("Poss", ""), ("DP", "S", 0), ("PosMar", "0", 0)),
+    (1, ("DP", "O"), ("Poss", ""), ("NP", "O")),
+    (1, ("DP", "J"), ("Poss", ""), ("NP", "J")),
 
     # pause
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
-    (("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
-    (("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
-    (("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
-    (("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
+    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0)),
+    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0)),
+    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
+    (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
+    (.1, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
+    (.1, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
+    (.1, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
 	# coordinating conjunctions
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(.1, ("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "S", 0)),
+	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0A", 0), ("NP", "P", 0)),
+	(.1, ("NP", "P"), ("NP", "S", 0), ("CC", "0A", 0), ("NP", "P", 0)),
 
-	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
-	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
-	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
-	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
-	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
-	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
-	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
-	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "SO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "SJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "PO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "SO", 0), ("CC", "0A", 0), ("DP", "PO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0A", 0), ("DP", "PJ", 0)),
 
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "S", 0)),
-	(("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "P", 0)),
-	(("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(.1, ("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "S", 0)),
+	(.1, ("NP", "P"), ("NP", "P", 0), ("CC", "0O", 0), ("NP", "P", 0)),
+	(.1, ("NP", "P"), ("NP", "S", 0), ("CC", "0O", 0), ("NP", "P", 0)),
 
-	(("DP", "SO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
-	(("DP", "SJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
-	(("DP", "SO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
-	(("DP", "SJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
-	(("DP", "PO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
-	(("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
-	(("DP", "PO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
-	(("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
+	(.1, ("DP", "SO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
+	(.1, ("DP", "SJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
+	(.1, ("DP", "SO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "SO", 0)),
+	(.1, ("DP", "SJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "SJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "PO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "PJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
+	(.1, ("DP", "PO"), ("DP", "SO", 0), ("CC", "0O", 0), ("DP", "PO", 0)),
+	(.1, ("DP", "PJ"), ("DP", "SJ", 0), ("CC", "0O", 0), ("DP", "PJ", 0)),
 
-	(("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
-	(("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
+	(.1, ("I'", ""), ("I'", ""), ("CC", "0A", 0), ("I'", "")),
+	(.1, ("I'", ""), ("I'", ""), ("CC", "0O", 0), ("I'", "")),
 
 	# TODO: add IP for and/or
 	#       and the remaining pos types for either/or and neither/nor
 
-	(("IP", ""), ("CC", "0E", 0), ("IP", ""), ("CC", "0O", 0), ("IP", "")),
+	(.1, ("IP", ""), ("CC", "0E", 0), ("IP", ""), ("CC", "0O", 0), ("IP", "")),
 
-	(("DP", "S"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "S")),
-	(("DP", "S"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "S")),
-	(("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
-	(("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
+	(.1, ("DP", "S"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "S")),
+	(.1, ("DP", "S"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "S")),
+	(.1, ("DP", "P"), ("CC", "0I", 0), ("DP", "S"), ("CC", "0R", 0), ("DP", "P")),
+	(.1, ("DP", "P"), ("CC", "0I", 0), ("DP", "P"), ("CC", "0R", 0), ("DP", "P")),
 
 	# subordinate phrases
-	(("VP", ""), ("VP", ""), ("SP", "v", 0)),
-	(("DP", ""), ("DP", ""), ("SP", "n", 0)),
-	(("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
-	(("SP", "v"), ("SC", "v"), ("IP", "", 0)),
-	(("SP", "n"), ("SC", "n"), ("IP", "", 0)),
+	(.1, ("VP", ""), ("VP", ""), ("SP", "v", 0)),
+	(.1, ("DP", ""), ("DP", ""), ("SP", "n", 0)),
+	(.1, ("DP", ""), ("DP", ""), ("SC", "d", 0), ("I'", "")),
+	(.1, ("SP", "v"), ("SC", "v"), ("IP", "", 0)),
+	(.1, ("SP", "n"), ("SC", "n"), ("IP", "", 0)),
 ]
 
 # vocab format is (word, part of speech, selection parameters, other parameters)
@@ -801,24 +801,25 @@ def gen_tag(symbol, parameters):
 def gen_rules(rule):
 	used_parameters = {
 		char
-		for r in rule
+		for r in rule[1:]
 		for char in r[1]
         if not (len(r) > 2 and r[2] == 0)
 	}
 	remaining_parameters = "".join(carried_parameters - used_parameters)
 	return [
 		(
-			gen_tag(rule[0][0], parameters + rule[0][1]),
+			rule[0],
+			gen_tag(rule[1][0], parameters + rule[1][1]),
 			[
 				gen_tag(r[0], ("" if len(r) > 2 and r[2] == 0 else parameters) + r[1])
-				for r in rule[1:]
+				for r in rule[2:]
 			]
 		)
 		for parameters in enumerate_parameters(remaining_parameters)
 	]
 
 def gen_vocab_rule(word, symbol, selection_parameters, parameters=""):
-	return (gen_tag(symbol, "".join(sorted(c for c in selection_parameters + parameters))), (word,))
+	return (1, gen_tag(symbol, "".join(sorted(c for c in selection_parameters + parameters))), (word,))
 
 def gen_grammar(rules):
 	grammar = [
@@ -829,10 +830,10 @@ def gen_grammar(rules):
 		gen_vocab_rule(*word)
 		for word in vocabulary
 	] + [
-		("START", "S"),
-		("S", ("S_()",)),
+		(1, "START", "S"),
+		(1, "S", ("S_()",)),
 	] + [
-		(gen_tag(pos, p + vp), (gen_tag(pos, parameters + vp),))
+		(1, gen_tag(pos, p + vp), (gen_tag(pos, parameters + vp),))
 		for pos, possible_parameters in selection_rules.items()
 		for parameters in enumerate_parameters(possible_parameters)
 		for p in parameters
@@ -849,11 +850,11 @@ def gen_grammar(rules):
 		initial_length = len(terminatable)
 
 		terminatable |= {
-			rule[0]
+			rule[1]
 			for rule in grammar
 			if all([
 				r in terminatable
-				for r in rule[1]
+				for r in rule[2]
 			])
 		}
 
@@ -866,7 +867,7 @@ def gen_grammar(rules):
 		for rule in grammar
 		if all([
 			r in terminatable
-			for r in rule[1]
+			for r in rule[2]
 		])
 	]
 
@@ -903,9 +904,10 @@ def is_recursive(rule):
 def to_string(grammar):
 	return "\n".join(
 		"\t".join((
-			".1" if is_recursive(rule) else "1",
-			rule[0],
-			" ".join(rule[1]),
+			#".1" if is_recursive(rule) else "1",
+			"{:.12f}".format(rule[0]),
+			rule[1],
+			" ".join(rule[2]),
 		)) for rule in grammar
 	)
 
