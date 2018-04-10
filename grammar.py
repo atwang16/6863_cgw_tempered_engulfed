@@ -109,10 +109,10 @@ rules = [
 	(1, ("I'", "G"), ("VP", "G")), # progressive
 	(1, ("I'", "N"), ("VP", "N")), # perfect nonprogressive
 
-	(1, ("I'", "G"), ("I", "$_", 0), ("VP", "N")), # passive progressive, eg being known
+	(1, ("I'", "G"), ("I", "$_", 0), ("VP", "I")), # passive progressive, eg being known
 	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "N")), # perfect nonprogressive, eg been known
 	(1, ("I'", "N"), ("I", "%_", 0), ("VP", "G")), # perfect nonprogressive, eg been knowing
-	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "N")), # eg be known
+	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "I")), # eg be known
 	(1, ("I'", "R"), ("I", "*_", 0), ("VP", "G")), # eg be knowing
 
 	(1, ("I'", "P"), ("VP", "P")), # active plural, eg know
@@ -211,6 +211,7 @@ rules = [
     (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "SO", 0), ("Pause_,", "0", 0)),
     (.1, ("DP", ""), ("DP", ""), ("Pause_,", "0", 0), ("DP", "PO", 0), ("Pause_,", "0", 0)),
     (.1, ("IP", ""), ("SP", "v"), ("Pause_,", "0", 0), ("IP", "")),
+	(.1, ("IP", ""), ("IP", ""), ("Pause_,", "0", 0), ("SentC", "", 0), ("IP", "")),
     (.1, ("IP", ""), ("IP", ""), ("Pause_;", "0", 0), ("IP", "")), 
     (.1, ("DP", ""), ("DP", ""), ("Pause_:", "0", 0), ("DP", "")),
 
@@ -533,6 +534,12 @@ vocabulary = [
 	("nor", "CC", "0", "R"),
 	("neither", "CC", "0", "I"),
 	("so", "X", "", ""),
+
+	# sentence conjunctions
+	("and", "SentC", "", ""),
+	("but", "SentC", "", ""),
+	("or", "SentC", "", ""),
+	("so", "SentC", "", ""),
 
 	# subordinating conjunctions
 	#  n - adjective clause with subject
