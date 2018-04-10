@@ -411,16 +411,6 @@ vocabulary = [
 	("when", "H", ""),
 	("where", "H", ""),
 
-	("cat", "N", "0"),
-	("dog", "N", "0"),
-	("bunny", "N", "0"),
-	#("run", "V", "0"),
-	#("eat", "V", "0d"),
-	#("give", "V", "0"), # will handle indirect objects later
-	#("does", "I", "v"),
-	#("did", "I", "v"),
-	#("will", "I", "v"),
-
     # end of sentence
 	(".", ".", "0"),
 	("!", ".", "0"),
