@@ -334,6 +334,11 @@ vocabulary = [
     ("them", "PerPro", "0", "P"),
     ("they", "Pn", "0", "P"),
 
+	("his", "Pn", "0", "S"),
+	("his", "Pn", "0", "P"),
+	("his", "PerPro", "0", "S"),
+	("his", "PerPro", "0", "P"),
+
     # personal possessive pronouns
     ("her", "PerPro", "0", "S"),
     ("his", "PerPro", "0", "S"),
